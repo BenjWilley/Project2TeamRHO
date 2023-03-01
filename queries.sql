@@ -1,59 +1,50 @@
-
 /*finds week with where Breakfast is most popular*/
-SELECT Week,MAX(Breakfast) AS popular
-From sales;
+SELECT MAX(Breakfast) 
+FROM sales;
 
 /*compare the sales of tea and coffee*/
-SELECT Week,Coffe,Tea AS Comparison
+SELECT Coffee,Tea AS Comparison
 FROM sales;
 
 /*Shows results from week 1*/
-SELECT * 
-FROM sales
-WHERE Week = 1;
+SELECT * FROM sales LIMIT 1;
 
 /*shows weeks where there were more orders of espresso*/
-SELECT Week
-FROM sales
+SELECT Week FROM sales
 WHERE Espresso > Coffee;
 
 /*this orders weeks by sales*/ 
 SELECT Week FROM sales ORDER BY Revenue;
 
-
-/*finds the income from game day*/
-SELECT Week, MAX(Revenue) AS gameDayWeek FROM sales;
-
-/*find the income from the other game day*/
-SELECT Week, MAX(Revenue) AS gameDayWeek2 
-FROM sales
-WHERE Revenue NOT IN gameDayWeek;
+/*finds the income from all days and assigns totalRevenue with total*/
+SELECT MAX(Revenue) AS totalRevenue 
+FROM sales;
 
 /*find least amount of revenue*/
-SELECT Week, MIN(Revenue) AS Broke
-From sales;
+SELECT MIN(Revenue) AS Broke
+FROM sales;
 
 /*finds week with where espresso most popular*/
-SELECT Week,MAX(Espresso) AS popular
-From sales;
+SELECT MAX(Espresso) AS popular
+FROM sales;
+
+/*shows gameday week*/
+SELECT * FROM sales WHERE week='38';
 
 /*finds the number of weeks*/
 SELECT COUNT(DISTINCT Week) 
 FROM sales;
 
-
-SELECT drinks, AVG(price) as avg_price
+/*Gets average number*/
+SELECT AVG(revenue) as avg_revenue
 FROM sales;
 
-
-SELECT food, SUM(price) as total_food
+/*Sums the bakery items sold*/
+SELECT SUM(bakery) as total_bakery
 FROM sales;
 
-SELECT food, SUM(price) as breakfast_total
-FROM sales
-WHERE category = “Breakfast”;
+/*Lists espresso in order of revenue that week*/
+SELECT espresso FROM sales ORDER BY Revenue;
 
-
-SELECT customizations
-FROM sales
-WHERE name = “Syrup” OR name = “Non Dairy”;
+/*first 10 weeks of hotchocolate orders*/
+SELECT hotchocolate FROM sales LIMIT 10;
