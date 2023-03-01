@@ -1,58 +1,59 @@
-=Drink,Espresso,Caffe Latte,4.45,4.95,5.25
-Drink,Espresso,Cappuccino,4.45,4.95,5.25
-Drink,Espresso,Caffe Mocha,4.95,5.45,5.95
-Drink,Espresso,Caramel Macchiato,4.95,5.75,5.95
-Drink,Espresso,White Choclate Mocha,4.95,5.75,5.95
-Drink,Coffee,Ice Coffee,3.45,3.75,4.25
-Drink,Coffee,Cold Brew Coffee,3.75,4.25,4.45
-Drink,Coffee,Cold Brew with Cold Foam,3.95,4.45,4.75
-Drink,Coffee,Salted Caramel Cream Cold Brew,4.45,4.95,5.25
-Drink,Coffee,Freshly Brewed Coffee,2.65,2.95,3.25
-Drink,More,Hot Chocolate,3.95,4.25,4.45
-Customization,Espresso,Shots,1.00,,
-Customization,Iced,Venti Iced,0.30,,
-Customization,Flavor,Syrup,0.50,,
-Customization,Milk,Non Dairy,0.80,,
-Drink,Tea,Shaken Iced Black Tea,2.75,2.95,3.45
-Drink,Tea,Shaken Iced Passion Tango Tea,2.75,2.95,3.45
-Drink,Tea,Shaken Iced Green Tea,2.75,2.95,3.45
-Drink,Tea,Shaken Iced Black Tea with Lemonade,2.75,2.95,3.45
-Drink,Tea,Shaken Iced Passion Tango Tea with Lemonade,2.75,2.95,3.45
-Drink,Tea,Shaken Iced Green Tea with Lemonade,2.75,2.95,3.45
-Drink,Tea,Chai Latte,4.45,4.95,5.25
-Drink,Tea,Honey Citrus Mint,2.75,2.95,3.25
-Drink,Tea,Royal English Breakfast,2.75,2.95,3.25
-Drink,Tea,Earl Grey,2.75,2.95,3.25
-Drink,Tea,Chai,2.75,2.95,3.25
-Drink,Tea,Emperor's Clouds and Mist,2.75,2.95,3.25
-Drink,Tea,Jade Citrus Mint,2.75,2.95,3.25
-Drink,Tea,Mint Majesty,2.75,2.95,3.25
-Drink,Tea,Peach Tranquility,2.75,2.95,3.25
-Drink,Refresher,Strawberry Acai,3.95,4.45,4.75
-Drink,Refresher,Mango Dragonfruit,3.95,4.45,4.75
-Drink,Coffee Frappuccino,Coffee,5.25,5.65,5.95
-Drink,Coffee Frappuccino,Caramel,5.25,5.65,5.95
-Drink,Coffee Frappuccino,Mocha,5.25,5.65,5.95
-Drink,Creme Frappuccino,Vanilla Bean,5.25,5.65,5.95
-Drink,Creme Frappuccino,Strawberry,5.25,5.65,5.95
-Drink,Creme Frappuccino,Double Choclate Chip,5.25,5.65,5.95
-Food,Breakfast,Double Smoked Bacon and Cheddar,4.95,,
-Food,Breakfast,Sausage and Cheddar,3.95,,
-Food,Breakfast,Bacon and Gouda,3.95,,
-Food,Breakfast,Chicken Sausage and Bacon Biscuit,4.95,,
-Food,Breakfast,Spicy Chorizo Monterey Jack and Egg,4.95,,
-Food,Breakfast,Spinach Feta and Cage-Free Egg White Wrap,4.95,,
-Food,Breakfast,Blueberry Oatmeal,3.75,,
-Food,Breakfast,Classic Oatmeal,3.25,,
-Food,Bakery,Banana Nut Bread,2.95,,
-Food,Bakery,Iced Lemon Loaf Cake,2.95,,
-Food,Bakery,Pumpkin Bread,2.95,,
-Food,Bakery,Blueberry Muffin,2.45,,
-Food,Bakery ,Cheese Danish,2.75,,
-Food,Bakery,Choclate Croissant,2.95,,
-Food,Bakery,Butter Croissant,2.65,,
-Food,Bakery,Ham and Cheese Croissant,3.75,,
-Food,Bakery,Cake Pop,1.95,,
-Food,Bakery,Classic Coffee Cake,2.95,,
-Food,Bakery,Choclate Chip Cookie,2.45,,
-Food,Bakery,Double Choclate Chunck Brownie,2.75,,
+Category,Sub-category,Item,Tall,Grande,Venti
+Drink,Espresso,Caffe Latte,$4.45,$4.95,$5.25
+Drink,Espresso,Cappuccino,$4.45,$4.95,$5.25
+Drink,Espresso,Caffe Mocha,$4.95,$5.45,$5.95
+Drink,Espresso,Caramel Macchiato,$4.95,$5.75,$5.95
+Drink,Espresso,White Choclate Mocha,$4.95,$5.75,$5.95
+Drink,Coffee,Ice Coffee,$3.45,$3.75,$4.25
+Drink,Coffee,Cold Brew Coffee,$3.75,$4.25,$4.45
+Drink,Coffee,Cold Brew with Cold Foam,$3.95,$4.45,$4.75
+Drink,Coffee,Salted Caramel Cream Cold Brew,$4.45,$4.95,$5.25
+Drink,Coffee,Freshly Brewed Coffee,$2.65,$2.95,$3.25
+Drink,More,Hot Chocolate,$3.95,$4.25,$4.45
+Customization,Espresso,Shots,$1.00,,
+Customization,Iced,Venti Iced,$0.30,,
+Customization,Flavor,Syrup,$0.50,,
+Customization,Milk,Non Dairy,$0.80,,
+Drink,Tea,Shaken Iced Black Tea,$2.75,$2.95,$3.45
+Drink,Tea,Shaken Iced Passion Tango Tea,$2.75,$2.95,$3.45
+Drink,Tea,Shaken Iced Green Tea,$2.75,$2.95,$3.45
+Drink ,Tea,Shaken Iced Black Tea with Lemonade,$2.75,$2.95,$3.45
+Drink,Tea,Shaken Iced Passion Tango Tea with Lemonade,$2.75,$2.95,$3.45
+Drink,Tea,Shaken Iced Green Tea with Lemonade,$2.75,$2.95,$3.45
+Drink,Tea,Chai Latte,$4.45,$4.95,$5.25
+Drink,Tea,Honey Citrus Mint,$2.75,$2.95,$3.25
+Drink,Tea,Royal English Breakfast,$2.75,$2.95,$3.25
+Drink,Tea,Earl Grey,$2.75,$2.95,$3.25
+Drink,Tea,Chai,$2.75,$2.95,$3.25
+Drink,Tea,Emperor's Clouds and Mist,$2.75,$2.95,$3.25
+Drink,Tea,Jade Citrus Mint,$2.75,$2.95,$3.25
+Drink,Tea,Mint Majesty,$2.75,$2.95,$3.25
+Drink,Tea,Peach Tranquility,$2.75,$2.95,$3.25
+Drink,Refresher,Strawberry Acai,$3.95,$4.45,$4.75
+Drink,Refresher,Mango Dragonfruit,$3.95,$4.45,$4.75
+Drink,Coffee Frappuccino,Coffee,$5.25,$5.65,$5.95
+Drink,Coffee Frappuccino,Caramel,$5.25,$5.65,$5.95
+Drink,Coffee Frappuccino,Mocha,$5.25,$5.65,$5.95
+Drink,Creme Frappuccino,Vanilla Bean,$5.25,$5.65,$5.95
+Drink,Creme Frappuccino,Strawberry,$5.25,$5.65,$5.95
+Drink,Creme Frappuccino,Double Choclate Chip,$5.25,$5.65,$5.95
+Food,Breakfast,Double Smoked Bacon and Cheddar,$4.95,,
+Food,Breakfast,Sausage and Cheddar,$3.95,,
+Food,Breakfast,Bacon and Gouda,$3.95,,
+Food,Breakfast,Chicken Sausage and Bacon Biscuit,$4.95,,
+Food,Breakfast,Spicy Chorizo Monterey Jack and Egg,$4.95,,
+Food,Breakfast,"Spinach, Feta and Cage-Free Egg White Wrap",$4.95,,
+Food,Breakfast,Blueberry Oatmeal,$3.75,,
+Food,Breakfast,Classic Oatmeal,$3.25,,
+Food,Bakery,Banana Nut Bread,$2.95,,
+Food,Bakery,Iced Lemon Loaf Cake,$2.95,,
+Food,Bakery,Pumpkin Bread,$2.95,,
+Food,Bakery,Blueberry Muffin,$2.45,,
+Food,Bakery ,Cheese Danish,$2.75,,
+Food,Bakery,Choclate Croissant,$2.95,,
+Food,Bakery,Butter Croissant,$2.65,,
+Food,Bakery,Ham and Cheese Croissant,$3.75,,
+Food,Bakery,Cake Pop,$1.95,,
+Food,Bakery,Classic Coffee Cake,$2.95,,
+Food,Bakery,Choclate Chip Cookie,$2.45,,
+Food,Bakery,Double Choclate Chuck Brownie,$2.75,,
