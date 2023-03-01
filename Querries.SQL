@@ -14,3 +14,17 @@ From sales;
 /*finds week with where espresso most popular*/
 SELECT Week,MAX(Espresso) AS popular
 From sales;
+
+/*compare the sales of tea and coffee*/
+SELECT Week,Coffe,Tea AS Comparison
+FROM sales;
+
+/*Shows results from week 1*/
+SELECT * 
+FROM sales
+WHERE Week = 1;
+
+/*shows weeks where there were more orders of espresso*/
+SELECT Week
+FROM sales
+WHERE Espresso > Coffee
