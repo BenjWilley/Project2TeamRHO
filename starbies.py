@@ -55,10 +55,14 @@ def generate_order():
     
     return [total] + order
 
-for day in range(7):
-    day_total = 0
-    for i in range(random.randrange(600, 1300)):
-        order = generate_order()
-        day_total += order[0]
-    print(round(day_total, 2))
 
+'''
+for day in range(7):
+    for i in range(random.randrange(600, 1300)):
+        print(generate_order())
+'''
+
+
+for i in range(5):
+    print(generate_order())
+    print()
