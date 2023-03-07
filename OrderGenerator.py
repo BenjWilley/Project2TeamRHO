@@ -12,31 +12,12 @@ price = 3
 
 # open a csv file in read mode
 
-file = open(r"C:\Users\ohbro\Downloads\StarbucksMenu.csv", "r")
 
 # serperate the contents into several 2d arrays
 
-drinks = []
-foods = []
-customization = []
 
 # for each line in the file, sort into each array by appending
 #   for each item, use the indices as access
-
-for x in file:
-    item = x.split(",")
-    if item[0] == 'Drink':
-        drink = [item[name], item[tall], item[grande], item[venti]]
-        #TODO trim off the \n attached to some of the lines
-        drinks.append(drink)
-    if item[0] == 'Food':
-        food = [item[name], item[price]]
-        foods.append(food)
-    if item[0] == 'Customization':
-        custom = [item[name], item[price]]
-        customization.append(custom)
-
-
 '''
 def generate_order():
     order = Order()
@@ -62,10 +43,9 @@ def generate_order():
 class Drink:
     def __init__(self, name, price, id, size):
         self.name = name
-        self.price = price
+        self.price = float(price)
         self.id = id
         self.customizations = []
-        self.size = size
     
     def updateName(self, new_name):
         self.name = new_name
@@ -75,16 +55,13 @@ class Drink:
 
     def addCustomization(self, customization):
         self.customizations.append(customization)
-        self.price += customization.price
-
-    def updateSize(self, size):
-        self.size = size
+        self.price += float(customization.price)
 
 
 class Customization:
     def __init__(self, name, price, id):
         self.name = name
-        self.price = price
+        self.price = float(price)
         self.id = id
 
     def updateName(self, new_name):
@@ -141,6 +118,7 @@ class Order:
     def setName(self, name):
         self.name = name
 
+'''
 latte = Drink("Latte", 3.45, 5, "Grande")
 vanilla = Customization("Vanilla Syrup", .50, 6)
 sandwich = Food("Impossible Sandwich", 4.00, 7)
@@ -162,6 +140,60 @@ print(order.drinks[0])
 
 print(latte.customizations[0].name)
 
+'''
+
+def loadMenu(menu, file):
+    id = 1
+
+    for x in file:
+        item = x.split(",")
+        if item[0] == 'Drink':
+            # drink = [item[name], item[tall], item[grande], item[venti]]
+            # TODO trim off the \n attached to some of the lines
+            # drinks.append(drink)
+
+            drink_tall = Drink("Tall " + item[name], float(item[tall]), id, "Tall")
+            menu.addDrink(drink_tall)
+            id += 1
+
+            drink_grande = Drink("Grande " + item[name], float(item[grande]), id, "Grande")
+            menu.addDrink(drink_grande)
+            id += 1
+
+            drink_venti = Drink("Venti " + item[name], float(item[venti]), id, "Venti")
+            menu.addDrink(drink_venti)
+            id += 1
+        if item[0] == 'Food':
+            # food = [item[name], item[price]]
+            # foods.append(food)
+
+            food = Food(item[name], item[price], id)
+            menu.addFood(food)
+            id += 1
+        if item[0] == 'Customization':
+            # custom = [item[name], item[price]]
+            # customization.append(custom)
+            custom = Customization(item[name], item[price], id)
+            menu.addCustomization(custom)
+            id += 1
+
+
+menu = Menu()
+
+file = open(r"C:\Users\ohbro\Downloads\StarbucksMenu.csv", "r")
+
+loadMenu(menu, file)
+
+print(menu.drinks[0].price)
+
+latte = menu.drinks[0]
+latte.addCustomization(menu.customizations[0])
+
+print(menu.drinks[0].price)
+print(menu.customizations[0].price)
+print(latte.price)
+
+# the menu appears to be updated with the price of the drink, need the drink to be a copy of the original, not hard linked
 
 
 
