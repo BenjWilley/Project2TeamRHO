@@ -1,36 +1,3 @@
-
-class Order:
-    def __init__(self):
-        self.drinks = []
-        self.foods = []
-        self.total = 0
-        self.notes = ""
-        self.week = -1
-        self.day = -1
-        self.id = -1
-
-    def add_drink(self, name, size, price, **kwargs):
-        drink = {'name': name, 'size' : size, 'price' : price, 'customizations': kwargs}
-        self.drinks.append(drink)
-
-    def add_food(self, name, price, **kwargs):
-        food = {'name': name, 'price' : price, 'customizations': kwargs}
-        self.foods.append(food)
-
-    def print(self):
-        print(self.total)
-
-    def update_total(self):
-        total = 0
-        for i in drinks:
-            print(i)
-            # total += i.get('price')
-        for i in food:
-            print(i)
-            # total += i.get('price')
-
-order = Order()
-
 import math
 import random
 import datetime
@@ -88,12 +55,120 @@ def generate_order():
     return [total] + order
 '''
 
-order = Order()
+# need to take in all menu items
+# maybe use a menu class with items
+# each item will have calories, price, an id, and a classificationv (food, drink, custom)
 
-order.add_drink("Latte", "tall", 3)
-order.add_drink("other drink", "short", 7)
-order.add_food("food item", 3)
-print(order.drinks)
-order.update_total()
-print(order.total)
+class Drink:
+    def __init__(self, name, price, id, size):
+        self.name = name
+        self.price = price
+        self.id = id
+        self.customizations = []
+        self.size = size
+    
+    def updateName(self, new_name):
+        self.name = new_name
+
+    def updatePrice(self, new_price):
+        self.price = new_price
+
+    def addCustomization(self, customization):
+        self.customizations.append(customization)
+        self.price += customization.price
+
+    def updateSize(self, size):
+        self.size = size
+
+
+class Customization:
+    def __init__(self, name, price, id):
+        self.name = name
+        self.price = price
+        self.id = id
+
+    def updateName(self, new_name):
+        self.name = new_name
+
+    def updatePrice(self, new_price):
+        self.price = new_price
+
+
+class Food:
+    def __init__(self, name, price, id):
+        self.name = name
+        self.price = price
+        self.id = id
+
+    def updateName(self, new_name):
+        self.name = new_name
+
+    def updatePrice(self, new_price):
+        self.price = new_price
+
+
+class Menu:
+    def __init__(self):
+        self.drinks = []
+        self.foods = []
+        self.customizations = []
+
+    def addDrink(self, drink):
+        self.drinks.append(drink)
+
+    def addFood(self, food):
+        self.foods.append(food)
+
+    def addCustomization(self, customization):
+        self.customizations.append(customization)
+
+class Order:
+    def __init__(self, time):
+        self.time = time
+        self.name = ""
+        self.drinks = []
+        self.foods = []
+        self.total = 0
+    
+    def addDrink(self, drink):
+        self.drinks.append(drink)
+        self.total += drink.price
+
+    def addFood(self, food):
+        self.foods.append(food)
+        self.total += food.price
+
+    def setName(self, name):
+        self.name = name
+
+latte = Drink("Latte", 3.45, 5, "Grande")
+vanilla = Customization("Vanilla Syrup", .50, 6)
+sandwich = Food("Impossible Sandwich", 4.00, 7)
+
+menu = Menu()
+
+menu.addDrink(latte)
+menu.addCustomization(vanilla)
+menu.addFood(sandwich)
+
+order = Order("05/17/2002 05:17:02")
+
+latte.addCustomization(vanilla)
+
+order.addDrink(latte)
+order.addFood(sandwich)
+
+print(order.drinks[0])
+
+print(latte.customizations[0].name)
+
+
+
+
+
+
+
+
+
+    
 
