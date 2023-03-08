@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Dimension;
 
 /*
   TODO:
@@ -15,8 +16,8 @@ public class GUI extends JFrame implements ActionListener {
 
 
     //array is used to switch their visibility on and off(initialized to show welcome)
-      JPanel panels[] = new JPanel[4];
-      boolean panelVisible[] = new boolean{true,false,false,false};
+      static JPanel[] panels = new JPanel[4];
+      static boolean[] panelVisible = new boolean[]{true,false,false,false};
 
 
 
@@ -24,35 +25,35 @@ public class GUI extends JFrame implements ActionListener {
     public static void main(String[] args)
     {
       //Building the connection
-      Connection conn = null;
+      // Connection conn = null;
       //TODO STEP 1
-      try {
-        Class.forName("org.postgresql.Driver");
-        conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_rho",
-           "csce315331_rho_master", "RHO");
-      } catch (Exception e) {
-        e.printStackTrace();
-        System.err.println(e.getClass().getName()+": "+e.getMessage());
-        System.exit(0);
-      }
-      JOptionPane.showMessageDialog(null,"Opened database successfully");
+      // try {
+      //   Class.forName("org.postgresql.Driver");
+      //   conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_rho",
+      //      "csce315331_rho_master", "RHO");
+      // } catch (Exception e) {
+      //   e.printStackTrace();
+      //   System.err.println(e.getClass().getName()+": "+e.getMessage());
+      //   System.exit(0);
+      // }
+      // JOptionPane.showMessageDialog(null,"Opened database successfully");
 
-      String name = "";
-      try{
-        //create a statement object
-        Statement stmt = conn.createStatement();
-        //create an SQL statement
-        //TODO Step 2
-        String sqlStatement = "select * from sales";
-        //send statement to DBMS
-        ResultSet result = stmt.executeQuery(sqlStatement);
-        while (result.next()) {
-          name += result.getString("Week")+"\n";
-        }
-      } catch (Exception e){
-        // JOptionPane.showMessageDialog(null,"Error accessing Database.");
-        System.out.println(e.getMessage());
-      }
+      // String name = "";
+      // try{
+      //   //create a statement object
+      //   Statement stmt = conn.createStatement();
+      //   //create an SQL statement
+      //   //TODO Step 2
+      //   String sqlStatement = "select * from sales";
+      //   //send statement to DBMS
+      //   ResultSet result = stmt.executeQuery(sqlStatement);
+      //   while (result.next()) {
+      //     name += result.getString("Week")+"\n";
+      //   }
+      // } catch (Exception e){
+      //   // JOptionPane.showMessageDialog(null,"Error accessing Database.");
+      //   System.out.println(e.getMessage());
+      // }
 
       
       // create a new frame
@@ -64,10 +65,19 @@ public class GUI extends JFrame implements ActionListener {
       //creating the close, manager, and server buttons
       JButton closeButton = new JButton("Close");
       closeButton.addActionListener(s);
+      closeButton.setActionCommand("Close");
+      closeButton.setPreferredSize(new Dimension(100, 50));
+      
       JButton managerButton = new JButton("Manager");
       managerButton.addActionListener(s);
+      managerButton.setActionCommand("Manager");
+      managerButton.setPreferredSize(new Dimension(100, 50));
+      
       JButton serverButton = new JButton("Server");
       serverButton.addActionListener(s);
+      serverButton.setActionCommand("Server");
+      serverButton.setPreferredSize(new Dimension(100, 50));
+      
 
 //Creating the array of panels
 
@@ -76,8 +86,6 @@ public class GUI extends JFrame implements ActionListener {
           welcomePanel.setOpaque(true);
           JTextArea welcomeMessage = new JTextArea("Welcome to team RHOs GUI");
           
-          
-
         //adding manager, server close and welcome message
           welcomePanel.add(closeButton);
           welcomePanel.add(managerButton);
@@ -89,24 +97,24 @@ public class GUI extends JFrame implements ActionListener {
           managerPanel.setOpaque(true);
           
 
-          welcomePanel.add(closeButton);
-          welcomePanel.add(serverButton);
+          managerPanel.add(closeButton);
+          managerPanel.add(serverButton);
 
 
     //server panel for ordering drinks/food
           JPanel serverPanel = new JPanel();
           serverPanel.setOpaque(true);
           
-          welcomePanel.add(closeButton);
-          welcomePanel.add(managerButton);
+          serverPanel.add(closeButton);
+          serverPanel.add(managerButton);
           
 
     //customizations panel for altering drinks
-          JPanel serverCustomizationsPanel = new JPanel();
+          JPanel customizationsPanel = new JPanel();
           customizationsPanel.setOpaque(true);
 
-          welcomePanel.add(closeButton);
-          welcomePanel.add(serverButton);
+          customizationsPanel.add(closeButton);
+          customizationsPanel.add(serverButton);
 
 
   //adding panels to array and 
@@ -134,13 +142,14 @@ public class GUI extends JFrame implements ActionListener {
       f.setVisible(true);
 
       //closing the connection
-      try {
-        conn.close();
-        JOptionPane.showMessageDialog(null,"Connection Closed.");
-      } catch(Exception e) {
-        JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
-      }
+    //   try {
+    //     conn.close();
+    //     JOptionPane.showMessageDialog(null,"Connection Closed.");
+    //   } catch(Exception e) {
+    //     JOptionPane.showMessageDialog(null,"Connection NOT Closed.");
+    //   }
     }
+    
 
     // if button is pressed
     public void actionPerformed(ActionEvent e)
@@ -149,11 +158,11 @@ public class GUI extends JFrame implements ActionListener {
         if (s.equals("Close")) {
             f.dispose();
         } else if(s.equals("Manager")){
-          panelVisible = {false,true,false,false};
+          panelVisible = new boolean[]{false,true,false,false};
         }else if(s.equals("Server")){
-          panelVisible = {false,false,true,false};
+          panelVisible = new boolean[]{false,false,true,false};
         }else if(s.equals("Customizations")){
-          panelVisible = {false,true,false,true};
+          panelVisible = new boolean[]{false,true,false,true};
         }
     }
 }
