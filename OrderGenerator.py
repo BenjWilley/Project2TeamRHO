@@ -176,7 +176,7 @@ def print_order(order):
 
 
 
-print_order(generate_order("05/17/2023"))
+#print_order(generate_order("05/17/2023"))
 
 
 # generator should make up a date and generate orders for those days
