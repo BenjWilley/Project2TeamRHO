@@ -60,36 +60,52 @@ public class GUI extends JFrame implements ActionListener {
       // create a object
       GUI s = new GUI();
 
-      //creating the close button
-      JButton b = new JButton("Close");
-      b.addActionListener(s);
-   
+      //creating the close, manager, and server buttons
+      JButton closeButton = new JButton("Close");
+      closeButton.addActionListener(s);
+      JButton managerButton = new JButton("Manager");
+      managerButton.addActionListener(s);
+      JButton serverButton = new JButton("Server");
+      serverButton.addActionListener(s);
 
 //Creating the array of panels
-
-     //array is used to switch their visibility on and off
-      JPanel panels[] = new JPanel[4];
-      boolean panelVisible[] = new boolean{true,false,false,false};
-
       //welcome panel for manager/server selection
       JPanel welcomePanel = new JPanel();
       welcomePanel.setOpaque(true);
-      JTextArea J = new JTextArea();
-      J.setText("manager and server");
-      welcomePanel.add(J);
-      welcomePanel.add(b);
+      JTextArea welcomeMessage = new JTextArea("Welcome to team RHOs GUI");
+      
 
-      //manager panel for inventory management
+    //adding manager, server and close buttons
+      welcomePanel.add(closeButton);
+      welcomePanel.add(managerButton);
+      welcomePanel.add(serverButton);
+
+
+
+
+    //manager panel for inventory management
       JPanel managerPanel = new JPanel();
       managerPanel.setOpaque(true);
       
 
-      //server panel for
+      welcomePanel.add(closeButton);
+      welcomePanel.add(serverButton);
+
+
+    //server panel for
       JPanel serverPanel = new JPanel();
       serverPanel.setOpaque(true);
       
+      welcomePanel.add(closeButton);
+      welcomePanel.add(managerButton);
+      
+
       JPanel serverCustomizationsPanel = new JPanel();
       customizationsPanel.setOpaque(true);
+
+      welcomePanel.add(closeButton);
+      welcomePanel.add(serverButton);
+
 
 
       panels[0] = welcomePanel;
@@ -130,6 +146,12 @@ public class GUI extends JFrame implements ActionListener {
         String s = e.getActionCommand();
         if (s.equals("Close")) {
             f.dispose();
+        } else if(s.equals("Manager")){
+          panelVisible = {false,true,false,false};
+        }else if(s.equals("Server")){
+          panelVisible = {false,false,true,false};
+        }else if(s.equals("Customizations")){
+          panelVisible = {false,true,false,true};
         }
     }
 }
