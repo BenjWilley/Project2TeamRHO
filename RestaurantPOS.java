@@ -56,32 +56,209 @@ public class RestaurantPOS extends JFrame {
                 setTitle("Server");
 
                 //subtotal
-                JEditorPane subtotalTextBox = new JEditorPane("subtotal text box");
+                JTextPane subtotalTextBox = new JTextPane();
+                subtotalTextBox.setText("Subtotal:");
+                subtotalTextBox.setEditable(false);
                 server.add(subtotalTextBox,BorderLayout.WEST);
+
+                //split pane for submenu and grid of items
+                
+
+
+                // Create a JPanel with a CardLayout
+                JPanel itemPanel = new JPanel(new CardLayout());
+                
+                // Create a JPanel with a CardLayout
+                JPanel cardPanel = new JPanel(new CardLayout());
+
+
+        //Coffee panel
+                // Create the panels you want to switch between
+                JPanel coffee = new JPanel();
+                coffee.setLayout(new GridLayout(0,1));
+                
+                //adding coffee options
+                        JRadioButton coffeeSelect  = new JRadioButton();
+                        JRadioButton espressoSelect  = new JRadioButton();
+                        JRadioButton frapSelect  = new JRadioButton();
+
+                        //adding customization options
+                        JRadioButton tallSelect  = new JRadioButton();
+                        JRadioButton grandeSelect  = new JRadioButton();
+                        JRadioButton ventiSelect  = new JRadioButton();
+                        JCheckBox extraEspressoSelect  = new JCheckBox();
+                        
+                        // making the order button
+                        JButton orderCoffeeButton = new JButton("Order");
+
+
+                        // grouping the buttons
+                        ButtonGroup drinkSelection = new ButtonGroup();
+                        ButtonGroup customSelection = new ButtonGroup();
+
+
+                        //assigning text to the buttons
+                        coffeeSelect.setText("Brewed Coffee");
+                        espressoSelect.setText("Espresso");
+                        frapSelect.setText("Frappuccino");
+
+                        tallSelect.setText("Tall");
+                        grandeSelect.setText("Grande");
+                        ventiSelect.setText("Venti");
+                        extraEspressoSelect.setText("Extra Espresso Shot");
+
+                        //adding all of the selections
+                        coffee.add(new JLabel("Coffee Selection"));
+                        coffee.add(coffeeSelect);
+                        coffee.add(espressoSelect);
+                        coffee.add(frapSelect);
+
+                        coffee.add(new JLabel("Customizations"));
+                        coffee.add(tallSelect);
+                        coffee.add(grandeSelect);
+                        coffee.add(ventiSelect);
+                        coffee.add(extraEspressoSelect);
+
+                        //adding the buttons to their respective groups
+                        drinkSelection.add(coffeeSelect);
+                        drinkSelection.add(espressoSelect);
+                        drinkSelection.add(frapSelect);
+
+                        customSelection.add(tallSelect);
+                        customSelection.add(grandeSelect);
+                        customSelection.add(ventiSelect);
+
+                        //adding the order button
+                        coffee.add(orderCoffeeButton);
+
+
+                JPanel tea = new JPanel();
+                tea.setLayout(new GridLayout(0,1));
+                    //adding coffee options
+                        JRadioButton mintSelect  = new JRadioButton();
+                        JRadioButton herbalSelect  = new JRadioButton();
+                        JRadioButton greenSelect  = new JRadioButton();
+                        JRadioButton hotCocoSelect  = new JRadioButton();
+
+                        //adding customization options
+                        JRadioButton tallTeaSelect  = new JRadioButton();
+                        JRadioButton grandeTeaSelect  = new JRadioButton();
+                        JRadioButton ventiTeaSelect  = new JRadioButton();
+                        
+                        
+                        // making the order button
+                        JButton orderTeaButton = new JButton("Order");
+
+
+                        // grouping the buttons
+                        ButtonGroup teaSelection = new ButtonGroup();
+                        ButtonGroup customTeaSelection = new ButtonGroup();
+
+
+                        //assigning text to the buttons
+                        mintSelect.setText("Peppermint Tea");
+                        herbalSelect.setText("Herbal Tea");
+                        greenSelect.setText("Green Tea");
+                        hotCocoSelect.setText("Hot Chocolate");
+
+                        tallTeaSelect.setText("Tall");
+                        grandeTeaSelect.setText("Grande");
+                        ventiTeaSelect.setText("Venti");
+                        
+
+                        //adding all of the selections
+                        tea.add(new JLabel("Drink Selection"));
+                        tea.add(mintSelect);
+                        tea.add(herbalSelect);
+                        tea.add(greenSelect);
+                        tea.add(hotCocoSelect);
+
+                        tea.add(new JLabel("Customizations"));
+                        tea.add(tallTeaSelect);
+                        tea.add(grandeTeaSelect);
+                        tea.add(ventiTeaSelect);
+                        
+
+                        //adding the buttons to their respective groups
+                        teaSelection.add(mintSelect);
+                        teaSelection.add(herbalSelect);
+                        teaSelection.add(greenSelect);
+                        teaSelection.add(hotCocoSelect);
+
+                        customTeaSelection.add(tallTeaSelect);
+                        customTeaSelection.add(grandeTeaSelect);
+                        customTeaSelection.add(ventiTeaSelect);
+
+                        //adding the order button
+                        tea.add(orderTeaButton);
+                
+                JPanel breakfast = new JPanel();
+                breakfast.add(new JLabel("breakfast"));
+                JPanel bakery = new JPanel();
+                bakery.add(new JLabel("bakery"));
+
+                // Add the panels to the cardPanel using the add() method
+                cardPanel.add(coffee, "coffee");
+                cardPanel.add(tea, "tea");
+                cardPanel.add(breakfast, "breakfast");
+                cardPanel.add(bakery, "bakery");
+
+                // Add the cardPanel to your main GUI panel
+                itemPanel.add(cardPanel);
 
                 //menu selector
                 JPanel menuSelectorPanel = new JPanel();
                 menuSelectorPanel.setLayout(new GridLayout(0,1));
                 //coffee
                 JButton coffeeButton = new JButton("Coffee");
+                coffeeButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        
+                        
+                       
+
+
+                        CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                        cardLayout.show(cardPanel, "coffee");
+
+                    }
+                });
                 menuSelectorPanel.add(coffeeButton);
 
                 //tea and hot chocolate
                 JButton teaButton = new JButton("Tea/Misc");
+                teaButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                        cardLayout.show(cardPanel, "tea");
+                    }
+                });
                 menuSelectorPanel.add(teaButton);
 
                 //bakery
                 JButton bakeryButton = new JButton("Bakery");
+                bakeryButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                        cardLayout.show(cardPanel, "bakery");
+                    }
+                });
                 menuSelectorPanel.add(bakeryButton);
 
                 //breakfast
                 JButton breakfastButton = new JButton("Breakfast");
+                breakfastButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+                        cardLayout.show(cardPanel, "breakfast");
+                    }
+                });
                 menuSelectorPanel.add(breakfastButton);
 
-                menuSelectorPanel.setPreferredSize(new Dimension(400, 400));
-                server.add(menuSelectorPanel,BorderLayout.CENTER);
+                menuSelectorPanel.setPreferredSize(new Dimension(300, 300));
 
-                
+                JSplitPane divider= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,menuSelectorPanel, itemPanel);
+                server.add(divider, BorderLayout.CENTER);
                 
                 server.add(backButton1, BorderLayout.SOUTH);  // Add the back button to the bottom of the frame
                 
@@ -94,6 +271,8 @@ public class RestaurantPOS extends JFrame {
                 setVisible(false);  // Hide the main frame
             }
         });
+
+
 
         // Add an ActionListener to the second button
         managerButton.addActionListener(new ActionListener() {
@@ -113,13 +292,100 @@ public class RestaurantPOS extends JFrame {
 
 
         //create the manager(inventory) page here        
-                setTitle("Manager");
-
-                
-
-
-
                 manager.add(backButton2, BorderLayout.SOUTH);  // Add the back button to the bottom of the frame
+
+                // Adding text for inventory
+                JLabel inventory = new JLabel("Inventory");
+                Font invFont = inventory.getFont();
+                inventory.setFont(new Font(invFont.getName(),invFont.getStyle(),24));
+                manager.add(inventory, BorderLayout.NORTH);
+                manager.add(new JLabel(), BorderLayout.EAST);
+                manager.getContentPane();
+
+
+                // adding the scrolling list
+                JPanel inventoryList = new JPanel(new BorderLayout());
+                // JTextArea inventoryArea = new JTextArea(10, 30);
+                DefaultListModel<String> itemList = new DefaultListModel<>();
+                itemList.addElement("TallCups");
+                itemList.addElement("GrandeCups");
+                itemList.addElement("VentiCups");
+                itemList.addElement("ShortCups");
+                itemList.addElement("Napkins");
+                itemList.addElement("LightGrounds(oz.)");
+                itemList.addElement("MediumGrounds(oz.)");
+                itemList.addElement("DarkGrounds(oz.)");
+                itemList.addElement("Teabags");
+                itemList.addElement("WholeMilk(oz.)");
+                itemList.addElement("2%(oz.)");
+                itemList.addElement("NonFatMilk(oz.)");
+                itemList.addElement("SoyMilk(oz.)");
+                itemList.addElement("AlmondMilk(oz.)");
+                itemList.addElement("OatMilk(oz.)");
+                itemList.addElement("CoconutMilk(oz.)");
+                itemList.addElement("CaramelSyrupPumps");
+                itemList.addElement("CaramelSyrupPumps");
+                itemList.addElement("No-sugarVanillaSyrup");
+                itemList.addElement("PeppermintSyrupPumps");
+                itemList.addElement("WhiteMochaSauce");
+                itemList.addElement("CaramelDrizzle");
+                itemList.addElement("StrawberryAcaiBase");
+                itemList.addElement("MangoDragonfruitBase");
+                itemList.addElement("FrappuccinoCremeBase");
+                itemList.addElement("FrappuccinoCoffeeBase");
+                itemList.addElement("ChocolateChips");
+                itemList.addElement("Half-n-HalfCups");
+                itemList.addElement("HeavyCreamCups");
+                JList<String> list = new JList<>(itemList);
+                JScrollPane inventoryScroll = new JScrollPane(list);
+                inventoryList.add(inventoryScroll, BorderLayout.WEST);
+                //manager.getContentPane().add(inventoryList);
+
+                // Restock Bar
+                JPanel restock = new JPanel(new BorderLayout());
+                DefaultListModel<String> RestockList = new DefaultListModel<>();
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("out");
+                RestockList.addElement("good");
+                RestockList.addElement("out");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("out");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("out");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                JList<String> RestockListJ = new JList<>(RestockList);
+                JScrollPane RestockScroll = new JScrollPane(RestockListJ);
+                restock.add(RestockScroll, BorderLayout.WEST);
+
+                JPanel itemRestock = new JPanel(new GridLayout(1,1));
+                itemRestock.add(inventoryList);
+                itemRestock.add(restock);
+                manager.add(itemRestock);
+                //manager.getContentPane().add(restock);
                 
                 manager.setVisible(true);
                 manager.setSize(1000, 600);
