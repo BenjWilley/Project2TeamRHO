@@ -51,6 +51,11 @@ public class RestaurantPOS extends JFrame {
                         setVisible(true);  // Show the main frame
                     }
                 });
+
+        //create the server(order) page here
+                
+
+
                 server.add(backButton1, BorderLayout.SOUTH);  // Add the back button to the bottom of the frame
                 
                 server.setVisible(true);
@@ -78,6 +83,9 @@ public class RestaurantPOS extends JFrame {
                         setVisible(true);  // Show the main frame
                     }
                 });
+
+
+        //create the manager(inventory) page here        
                 manager.add(backButton2, BorderLayout.SOUTH);  // Add the back button to the bottom of the frame
                 
                 manager.setVisible(true);
