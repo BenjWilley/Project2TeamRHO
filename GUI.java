@@ -20,6 +20,7 @@ public class GUI extends JFrame implements ActionListener {
 
 
 
+//most of main is connecting to the SQL file
     public static void main(String[] args)
     {
       //Building the connection
@@ -69,45 +70,46 @@ public class GUI extends JFrame implements ActionListener {
       serverButton.addActionListener(s);
 
 //Creating the array of panels
-      //welcome panel for manager/server selection
-      JPanel welcomePanel = new JPanel();
-      welcomePanel.setOpaque(true);
-      JTextArea welcomeMessage = new JTextArea("Welcome to team RHOs GUI");
-      
 
-    //adding manager, server and close buttons
-      welcomePanel.add(closeButton);
-      welcomePanel.add(managerButton);
-      welcomePanel.add(serverButton);
+    //welcome panel for manager/server selection
+          JPanel welcomePanel = new JPanel();
+          welcomePanel.setOpaque(true);
+          JTextArea welcomeMessage = new JTextArea("Welcome to team RHOs GUI");
+          
+          
 
-
-
+        //adding manager, server close and welcome message
+          welcomePanel.add(closeButton);
+          welcomePanel.add(managerButton);
+          welcomePanel.add(serverButton);
+          welcomePanel.add(welcomeMessage);
 
     //manager panel for inventory management
-      JPanel managerPanel = new JPanel();
-      managerPanel.setOpaque(true);
-      
+          JPanel managerPanel = new JPanel();
+          managerPanel.setOpaque(true);
+          
 
-      welcomePanel.add(closeButton);
-      welcomePanel.add(serverButton);
-
-
-    //server panel for
-      JPanel serverPanel = new JPanel();
-      serverPanel.setOpaque(true);
-      
-      welcomePanel.add(closeButton);
-      welcomePanel.add(managerButton);
-      
-
-      JPanel serverCustomizationsPanel = new JPanel();
-      customizationsPanel.setOpaque(true);
-
-      welcomePanel.add(closeButton);
-      welcomePanel.add(serverButton);
+          welcomePanel.add(closeButton);
+          welcomePanel.add(serverButton);
 
 
+    //server panel for ordering drinks/food
+          JPanel serverPanel = new JPanel();
+          serverPanel.setOpaque(true);
+          
+          welcomePanel.add(closeButton);
+          welcomePanel.add(managerButton);
+          
 
+    //customizations panel for altering drinks
+          JPanel serverCustomizationsPanel = new JPanel();
+          customizationsPanel.setOpaque(true);
+
+          welcomePanel.add(closeButton);
+          welcomePanel.add(serverButton);
+
+
+  //adding panels to array and 
       panels[0] = welcomePanel;
       panels[1] = managerPanel;
       panels[2] = serverPanel;
