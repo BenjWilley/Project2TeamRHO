@@ -24,9 +24,9 @@ public class GUI extends JFrame implements ActionListener {
 //most of main is connecting to the SQL file
     public static void main(String[] args)
     {
-      //Building the connection
+      // //Building the connection
       // Connection conn = null;
-      //TODO STEP 1
+      // //TODO STEP 1
       // try {
       //   Class.forName("org.postgresql.Driver");
       //   conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_rho",
@@ -85,7 +85,7 @@ public class GUI extends JFrame implements ActionListener {
           JPanel welcomePanel = new JPanel();
           welcomePanel.setOpaque(true);
           JTextArea welcomeMessage = new JTextArea("Welcome to team RHOs GUI");
-          
+
         //adding manager, server close and welcome message
           welcomePanel.add(closeButton);
           welcomePanel.add(managerButton);
@@ -159,10 +159,13 @@ public class GUI extends JFrame implements ActionListener {
             f.dispose();
         } else if(s.equals("Manager")){
           panelVisible = new boolean[]{false,true,false,false};
+          setVisible(true); 
         }else if(s.equals("Server")){
           panelVisible = new boolean[]{false,false,true,false};
+          setVisible(true); 
         }else if(s.equals("Customizations")){
           panelVisible = new boolean[]{false,true,false,true};
+          setVisible(true); 
         }
     }
 }
