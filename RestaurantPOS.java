@@ -44,7 +44,7 @@ public class RestaurantPOS extends JFrame {
                 server.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 
                 // Add a back button to the next page 1
-                JButton backButton1 = new JButton("Back");
+                JButton backButton1 = new JButton("Home");
                 backButton1.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         server.dispose();  // Close the next page 1 frame
@@ -61,33 +61,28 @@ public class RestaurantPOS extends JFrame {
 
                 //menu selector
                 JPanel menuSelectorPanel = new JPanel();
-
+                menuSelectorPanel.setLayout(new GridLayout(0,1));
                 //coffee
                 JButton coffeeButton = new JButton("Coffee");
-                coffeeButton.setPreferredSize(new Dimension(100, 50));
-
-                menuSelectorPanel.add(coffeeButton,BorderLayout.NORTH);
+                menuSelectorPanel.add(coffeeButton);
 
                 //tea and hot chocolate
                 JButton teaButton = new JButton("Tea/Misc");
-                teaButton.setPreferredSize(new Dimension(100, 50));
+                menuSelectorPanel.add(teaButton);
 
-                menuSelectorPanel.add(teaButton,BorderLayout.CENTER);
+                //bakery
+                JButton bakeryButton = new JButton("Bakery");
+                menuSelectorPanel.add(bakeryButton);
 
-                //food
-                JButton foodButton = new JButton("Food");
-                foodButton.setPreferredSize(new Dimension(100, 50));
+                //breakfast
+                JButton breakfastButton = new JButton("Breakfast");
+                menuSelectorPanel.add(breakfastButton);
 
-                menuSelectorPanel.add(teaButton,BorderLayout.EAST);
-
+                menuSelectorPanel.setPreferredSize(new Dimension(400, 400));
                 server.add(menuSelectorPanel,BorderLayout.CENTER);
 
-                //grid of menu items
-                // this will be replaced by the grid of menu items with action listeners on the menu buttons
-                JEditorPane gridItems = new JEditorPane("grid of items");
-                server.add(gridItems,BorderLayout.EAST);
-
-
+                
+                
                 server.add(backButton1, BorderLayout.SOUTH);  // Add the back button to the bottom of the frame
                 
                 server.setVisible(true);
@@ -108,7 +103,7 @@ public class RestaurantPOS extends JFrame {
                 manager.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 
                 // Add a back button to the next page 2
-                JButton backButton2 = new JButton("Back");
+                JButton backButton2 = new JButton("Home");
                 backButton2.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         manager.dispose();  // Close the next page 2 frame
