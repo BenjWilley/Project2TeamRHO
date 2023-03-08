@@ -470,7 +470,13 @@ public class RestaurantPOS extends JFrame {
                 JPanel trendsPanel = new JPanel(new GridLayout(0,1));
 
                 // drop down for weeks
-                String[] weeks = {"week 1", "week 2"};
+                
+                String[] weeks = new String[52];
+                for(int i = 0;i < 52;i++){
+                    String addWeek = "week ";
+                    addWeek = addWeek + String.valueOf(i+1);
+                    weeks[i] = addWeek;
+                }
                 JComboBox<String> cb = new JComboBox<String>(weeks);
                 trendsPanel.add(cb);
                 
