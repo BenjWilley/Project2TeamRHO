@@ -1,6 +1,7 @@
 import math
 import random
 import datetime
+import copy
 
 # declare varibles for array accessing
 
@@ -109,11 +110,11 @@ class Order:
     
     def addDrink(self, drink):
         self.drinks.append(drink)
-        self.total += drink.price
+        self.total += float(drink.price)
 
     def addFood(self, food):
         self.foods.append(food)
-        self.total += food.price
+        self.total += float(food.price)
 
     def setName(self, name):
         self.name = name
@@ -184,16 +185,54 @@ file = open(r"C:\Users\ohbro\Downloads\StarbucksMenu.csv", "r")
 
 loadMenu(menu, file)
 
+'''
 print(menu.drinks[0].price)
 
-latte = menu.drinks[0]
-latte.addCustomization(menu.customizations[0])
+latte = copy.deepcopy(menu.drinks[0])
+latte.addCustomization(copy.deepcopy(menu.customizations[0]))
 
 print(menu.drinks[0].price)
 print(menu.customizations[0].price)
 print(latte.price)
+'''
 
-# the menu appears to be updated with the price of the drink, need the drink to be a copy of the original, not hard linked
+
+
+def generate_order(date): # date in the format mm/dd/yyyy
+
+    minute = str(random.randrange(50) + 10) # avoiding minutes less than 10 because the time formatting is funky
+    hour = str(random.randrange(12) + 10) # open from 10am to 10pm
+    time = date + " " + hour + ":" + minute
+
+    order = Order(time)
+    for food in range(random.randrange(3) + 1):
+        pick = copy.deepcopy(random.choice(menu.foods))
+        order.addFood(pick)
+
+    for drink in range(random.randrange(3) + 1): # for a random number of drinks in the order
+        pick = copy.deepcopy(random.choice(menu.drinks)) # pick the drink from the menu
+        # custom = copy.deepcopy(random.choice(menu.customizations)) # pick a random customization
+        for custom in range(random.randrange(3)):
+            custom_pick = copy.deepcopy(random.choice(menu.customizations))
+            pick.addCustomization(custom_pick)
+
+        order.addDrink(pick)
+    
+    return order
+
+def print_order(order):
+    print(order.time, order.name)
+    for drink in order.drinks:
+        print(drink.price, drink.name)
+        for custom in drink.customizations:
+            print("    ", custom.name)
+    for food in order.foods:
+        print(food.price, food.name)
+    print(order.total)
+
+
+
+print_order(generate_order("05/17/2023"))
 
 
 
