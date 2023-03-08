@@ -96,15 +96,58 @@ public class RestaurantPOS extends JFrame {
                         ButtonGroup customSelection = new ButtonGroup();
 
 
+                        class Order{
+                            String drink;
+                            String size;
+                            boolean customization = false;
+                            double price = 0.0;
+                        }
+                        final Order order = new Order();
+
                         //assigning text to the buttons
-                        coffeeSelect.setText("Brewed Coffee");
-                        espressoSelect.setText("Espresso");
-                        frapSelect.setText("Frappuccino");
+                        coffeeSelect.setText("Freshly Brewed Coffee");
+                        coffeeSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = coffeeSelect.getText();
+                            }
+                        });
+                        espressoSelect.setText("Cappuccino");
+                        espressoSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = espressoSelect.getText();
+                            }
+                        });
+                        frapSelect.setText("Frappuccino Coffee");
+                        frapSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = frapSelect.getText();
+                            }
+                        });
 
                         tallSelect.setText("Tall");
+                        tallSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.size = "tall";
+                            }
+                        });
                         grandeSelect.setText("Grande");
+                        grandeSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.size = "grande";
+                            }
+                        });
                         ventiSelect.setText("Venti");
+                        ventiSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.size = "venti";
+                            }
+                        });
                         extraEspressoSelect.setText("Extra Espresso Shot");
+                        extraEspressoSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.customization = true;
+                            }
+                        });
 
                         //adding all of the selections
                         coffee.add(new JLabel("Coffee Selection"));
@@ -129,6 +172,31 @@ public class RestaurantPOS extends JFrame {
 
                         //adding the order button
                         coffee.add(orderCoffeeButton);
+                        
+                        String sql = "SELECT * FROM menu where item = " + order.drink;
+
+                        try{
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(sql);
+                            if(order.size == "tall"){
+                                while(rs.next()){
+                                    order.price = rs.getDouble(4);
+                                }  
+                            }
+                            else if(order.size == "grande"){
+                                while(rs.next()){
+                                    order.price = rs.getDouble(5);
+                                } 
+                            }
+                            else{
+                                while(rs.next()){
+                                    order.price = rs.getDouble(6);
+                                } 
+                            }
+                            System.out.println(order.price);
+                        } catch(SQLException s){
+                            s.printStackTrace();
+                        }
 
             //Teas
                 JPanel tea = new JPanel();
@@ -326,9 +394,9 @@ public class RestaurantPOS extends JFrame {
                         cardLayout.show(cardPanel, "breakfast");
                     }
                 });
-
-
                 menuSelectorPanel.add(breakfastButton);
+
+
                 menuSelectorPanel.setPreferredSize(new Dimension(300, 300));
 
                 JSplitPane divider= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,menuSelectorPanel, itemPanel);
@@ -420,33 +488,33 @@ public class RestaurantPOS extends JFrame {
                 DefaultListModel<String> RestockList = new DefaultListModel<>();
                 RestockList.addElement("good");
                 RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("out");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("low");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("low");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
-                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
                 RestockList.addElement("good");
