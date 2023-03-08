@@ -57,12 +57,11 @@ public class RestaurantPOS extends JFrame {
 
                 //subtotal
                 JTextPane subtotalTextBox = new JTextPane();
-                subtotalTextBox.setText("Subtotal:");
+                subtotalTextBox.setText("Subtotal: $$$");
                 subtotalTextBox.setEditable(false);
                 server.add(subtotalTextBox,BorderLayout.WEST);
 
-                //split pane for submenu and grid of items
-                
+
 
 
                 // Create a JPanel with a CardLayout
@@ -131,10 +130,10 @@ public class RestaurantPOS extends JFrame {
                         //adding the order button
                         coffee.add(orderCoffeeButton);
 
-
+            //Teas
                 JPanel tea = new JPanel();
                 tea.setLayout(new GridLayout(0,1));
-                    //adding coffee options
+                    //adding tea options
                         JRadioButton mintSelect  = new JRadioButton();
                         JRadioButton herbalSelect  = new JRadioButton();
                         JRadioButton greenSelect  = new JRadioButton();
@@ -192,10 +191,89 @@ public class RestaurantPOS extends JFrame {
                         //adding the order button
                         tea.add(orderTeaButton);
                 
+            //Breakfast Items    
                 JPanel breakfast = new JPanel();
-                breakfast.add(new JLabel("breakfast"));
+                breakfast.setLayout(new GridLayout(0,1));
+                    //adding breakfast options
+                        JRadioButton eggSelect  = new JRadioButton();
+                        JRadioButton sammySelect  = new JRadioButton();
+                        JRadioButton wrapSelect  = new JRadioButton();
+                        JRadioButton impossibleSelect  = new JRadioButton();
+
+        
+                        // making the order button
+                        JButton orderBreakfastButton = new JButton("Order");
+
+
+                        // grouping the buttons
+                        ButtonGroup breakfastSelection = new ButtonGroup();
+
+
+                        //assigning text to the buttons
+                        eggSelect.setText("Egg Bites");
+                        sammySelect.setText("Bacon, Egg, and Cheese Sandwich");
+                        wrapSelect.setText("Bacon, Sausage, and Egg Wrap");
+                        impossibleSelect.setText("ImpossibleTM Breakfast Sandwich");
+                       
+                        
+
+                        //adding all of the selections
+                        breakfast.add(new JLabel("Breakfast Selection"));
+                        breakfast.add(eggSelect);
+                        breakfast.add(sammySelect);
+                        breakfast.add(wrapSelect);
+                        breakfast.add(impossibleSelect);
+
+                        //adding the buttons to their respective groups
+                        breakfastSelection.add(eggSelect);
+                        breakfastSelection.add(sammySelect);
+                        breakfastSelection.add(wrapSelect);
+                        breakfastSelection.add(impossibleSelect);
+
+                        //adding the order button
+                        breakfast.add(orderBreakfastButton);
+
                 JPanel bakery = new JPanel();
-                bakery.add(new JLabel("bakery"));
+                bakery.setLayout(new GridLayout(0,1));
+                    //adding breakfast options
+                        JRadioButton crosSelect  = new JRadioButton();
+                        JRadioButton muffinSelect  = new JRadioButton();
+                        JRadioButton loafSelect  = new JRadioButton();
+                        JRadioButton bagelSelect  = new JRadioButton();
+
+        
+                        // making the order button
+                        JButton orderBakeryButton = new JButton("Order");
+
+                        // grouping the buttons
+                        ButtonGroup bakerySelection = new ButtonGroup();
+
+
+                        //assigning text to the buttons
+                        crosSelect.setText("Buttered Croissant");
+                        muffinSelect.setText("Blueberry Muffin");
+                        loafSelect.setText("Banana Nut Loaf");
+                        bagelSelect.setText("Everything Bagel");
+                       
+                        
+
+                        //adding all of the selections
+                        bakery.add(new JLabel("Breakfast Selection"));
+                        bakery.add(crosSelect);
+                        bakery.add(muffinSelect);
+                        bakery.add(loafSelect);
+                        bakery.add(bagelSelect);
+
+                        //adding the buttons to their respective groups
+                        bakerySelection.add(crosSelect);
+                        bakerySelection.add(muffinSelect);
+                        bakerySelection.add(loafSelect);
+                        bakerySelection.add(bagelSelect);
+
+                        //adding the order button
+                        bakery.add(orderBakeryButton);
+
+
 
                 // Add the panels to the cardPanel using the add() method
                 cardPanel.add(coffee, "coffee");
@@ -213,11 +291,6 @@ public class RestaurantPOS extends JFrame {
                 JButton coffeeButton = new JButton("Coffee");
                 coffeeButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        
-                        
-                       
-
-
                         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
                         cardLayout.show(cardPanel, "coffee");
 
@@ -253,8 +326,9 @@ public class RestaurantPOS extends JFrame {
                         cardLayout.show(cardPanel, "breakfast");
                     }
                 });
-                menuSelectorPanel.add(breakfastButton);
 
+
+                menuSelectorPanel.add(breakfastButton);
                 menuSelectorPanel.setPreferredSize(new Dimension(300, 300));
 
                 JSplitPane divider= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,menuSelectorPanel, itemPanel);
