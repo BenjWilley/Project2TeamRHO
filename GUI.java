@@ -13,6 +13,13 @@ import javax.swing.*;
 public class GUI extends JFrame implements ActionListener {
     static JFrame f;
 
+
+    //array is used to switch their visibility on and off(initialized to show welcome)
+      JPanel panels[] = new JPanel[4];
+      boolean panelVisible[] = new boolean{true,false,false,false};
+
+
+
     public static void main(String[] args)
     {
       //Building the connection
@@ -45,34 +52,66 @@ public class GUI extends JFrame implements ActionListener {
         // JOptionPane.showMessageDialog(null,"Error accessing Database.");
         System.out.println(e.getMessage());
       }
+
+      
       // create a new frame
       f = new JFrame("DB GUI");
 
       // create a object
       GUI s = new GUI();
 
-      // create a panel
-      JPanel p = new JPanel();
-
+      //creating the close button
       JButton b = new JButton("Close");
-
-      // add actionlistener to button
       b.addActionListener(s);
+   
 
-      //TODO Step 3 
+//Creating the array of panels
+
+     //array is used to switch their visibility on and off
+      JPanel panels[] = new JPanel[4];
+      boolean panelVisible[] = new boolean{true,false,false,false};
+
+      //welcome panel for manager/server selection
+      JPanel welcomePanel = new JPanel();
+      welcomePanel.setOpaque(true);
       JTextArea J = new JTextArea();
-      J.setText(name);
+      J.setText("manager and server");
+      welcomePanel.add(J);
+      welcomePanel.add(b);
 
-      //TODO Step 4
+      //manager panel for inventory management
+      JPanel managerPanel = new JPanel();
+      managerPanel.setOpaque(true);
+      
 
-      // add button to panel
-      p.add(J);
+      //server panel for
+      JPanel serverPanel = new JPanel();
+      serverPanel.setOpaque(true);
+      
+      JPanel serverCustomizationsPanel = new JPanel();
+      customizationsPanel.setOpaque(true);
 
-      // add panel to frame
-      f.add(p);
+
+      panels[0] = welcomePanel;
+      panels[1] = managerPanel;
+      panels[2] = serverPanel;
+      panels[3] = customizationsPanel;
+
+
+      // add panels to frame
+      f.add(welcomePanel);  
+      f.add(managerPanel);  
+      f.add(serverPanel); 
+      f.add(customizationsPanel); 
+
+      //setting the panels visibility
+      welcomePanel.setVisible(panelVisible[0]);
+      managerPanel.setVisible(panelVisible[1]);
+      serverPanel.setVisible(panelVisible[2]);
+      customizationsPanel.setVisible(panelVisible[3]);
 
       // set the size of frame
-      f.setSize(400, 400);
+      f.setSize(600, 400);
 
       f.setVisible(true);
 
