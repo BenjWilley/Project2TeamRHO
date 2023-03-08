@@ -16,27 +16,6 @@ price = 3
 
 # serperate the contents into several 2d arrays
 
-
-# for each line in the file, sort into each array by appending
-#   for each item, use the indices as access
-'''
-def generate_order():
-    order = Order()
-    for food in range(random.randrange(3) + 1):
-        pick = random.choice(foods)
-        order.add_food(pick[0], pick[1])
-
-    for drink in range(random.randrange(3) + 1): # for a random number of drinks in the order
-        pick = random.choice(drinks) # pick the drink from the menu
-        custom = random.choice(customization) # pick a random customization
-        pick = [pick[0], custom[0], float(pick[random.randrange(1,4)]) + float(custom[1])] # set a random size
-
-        order.append(pick)
-        total += pick[2]
-    
-    return [total] + order
-'''
-
 # need to take in all menu items
 # maybe use a menu class with items
 # each item will have calories, price, an id, and a classificationv (food, drink, custom)
@@ -119,29 +98,6 @@ class Order:
     def setName(self, name):
         self.name = name
 
-'''
-latte = Drink("Latte", 3.45, 5, "Grande")
-vanilla = Customization("Vanilla Syrup", .50, 6)
-sandwich = Food("Impossible Sandwich", 4.00, 7)
-
-menu = Menu()
-
-menu.addDrink(latte)
-menu.addCustomization(vanilla)
-menu.addFood(sandwich)
-
-order = Order("05/17/2002 05:17:02")
-
-latte.addCustomization(vanilla)
-
-order.addDrink(latte)
-order.addFood(sandwich)
-
-print(order.drinks[0])
-
-print(latte.customizations[0].name)
-
-'''
 
 def loadMenu(menu, file):
     id = 1
@@ -185,18 +141,6 @@ file = open(r"C:\Users\ohbro\Downloads\StarbucksMenu.csv", "r")
 
 loadMenu(menu, file)
 
-'''
-print(menu.drinks[0].price)
-
-latte = copy.deepcopy(menu.drinks[0])
-latte.addCustomization(copy.deepcopy(menu.customizations[0]))
-
-print(menu.drinks[0].price)
-print(menu.customizations[0].price)
-print(latte.price)
-'''
-
-
 
 def generate_order(date): # date in the format mm/dd/yyyy
 
@@ -223,16 +167,32 @@ def generate_order(date): # date in the format mm/dd/yyyy
 def print_order(order):
     print(order.time, order.name)
     for drink in order.drinks:
-        print(drink.price, drink.name)
+        print(drink.price, drink.name, drink.id)
         for custom in drink.customizations:
-            print("    ", custom.name)
+            print("    ", custom.name, custom.id)
     for food in order.foods:
-        print(food.price, food.name)
+        print(food.price, food.name, food.id)
     print(order.total)
 
 
 
-print_order(generate_order("05/17/2023"))
+#print_order(generate_order("05/17/2023"))
+
+
+# generator should make up a date and generate orders for those days
+# printables:
+# Drink : name, price, id, customizations and their name and id
+# Food : name, price, id
+
+file_out = open("order_data.csv", 'wt')
+
+for i in range(1000):
+    order = generate_order("00/00/0000")
+    file_out.write(order.time + ", " + str(round(order.total, 2)) + ", " + str(len(order.drinks)) + ", " + str(len(order.foods)) + "\n")
+
+file_out.close()
+
+
 
 
 
