@@ -1,5 +1,6 @@
 import math
 import random
+import datetime
 
 # declare varibles for array accessing
 
@@ -40,12 +41,12 @@ for x in file:
 def generate_order():
     order = []
     total = 0
-    for food in range(random.randrange(3)):
+    for food in range(random.randrange(3) + 1):
         pick = random.choice(foods)
         order.append(pick)
         total += float(pick[1])
 
-    for drink in range(random.randrange(3)): # for a random number of drinks in the order
+    for drink in range(random.randrange(3) + 1): # for a random number of drinks in the order
         pick = random.choice(drinks) # pick the drink from the menu
         custom = random.choice(customization) # pick a random customization
         pick = [pick[0], custom[0], float(pick[random.randrange(1,4)]) + float(custom[1])] # set a random size
@@ -64,5 +65,24 @@ for day in range(7):
 
 
 for i in range(5):
-    print(generate_order())
+    # print(generate_order())
     print()
+
+# for each day, a number of orders are generated, 
+
+x = datetime.datetime(2020, 5, 17)
+
+
+days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+# for each day in each month, generate a certain amount of orders
+
+for month in range(12):
+    for day in range(days_in_month[month]):
+        # print("Day: ", day, "Month: ", month)
+        date = datetime.datetime(2023, month + 1, day + 1)
+        print(date.strftime("%w"), end=" ")
+        print(date.strftime("%U"), end="")
+        print()
+
+print(x)
