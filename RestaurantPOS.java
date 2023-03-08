@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -6,9 +7,27 @@ public class RestaurantPOS extends JFrame {
 
     private JButton nextPageButton1;
     private JButton nextPageButton2;
-    private JButton backButton;
+    private Connection conn;
 
     public RestaurantPOS() {
+        try {
+            // Establish a connection to the database
+            conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_rho",
+            "csce315331_rho_master", "RHO");
+            System.out.println("Connected to database");
+        } catch (SQLException e) {
+            System.err.println("Error connecting to database: " + e.getMessage());
+        }
+        finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error closing database connection: " + e.getMessage());
+            }
+        }
+
         // Initialize the buttons
         nextPageButton1 = new JButton("Server Menu");
         nextPageButton2 = new JButton("Manager Menu");
