@@ -63,19 +63,19 @@ public class RestaurantPOS extends JFrame {
                 JPanel menuSelectorPanel = new JPanel();
 
                 //coffee
-                coffeeButton = new JButton("Coffee");
+                JBUtton coffeeButton = new JButton("Coffee");
                 coffeeButton.setPreferredSize(new Dimension(100, 50));
 
                 menuSelectorPanel.add(coffeeButton,BorderLayout.NORTH);
 
                 //tea and hot chocolate
-                teaButton = new JButton("Tea/Misc");
+                JButton teaButton = new JButton("Tea/Misc");
                 teaButton.setPreferredSize(new Dimension(100, 50));
 
                 menuSelectorPanel.add(teaButton,BorderLayout.CENTER);
 
                 //food
-                foodButton = new JButton("Food");
+                JButton foodButton = new JButton("Food");
                 foodButton.setPreferredSize(new Dimension(100, 50));
 
                 menuSelectorPanel.add(teaButton,BorderLayout.EAST);
