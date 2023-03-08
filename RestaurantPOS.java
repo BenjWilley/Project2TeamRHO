@@ -86,6 +86,42 @@ public class RestaurantPOS extends JFrame {
 
 
         //create the manager(inventory) page here        
+                setTitle("Manager");
+
+                //subtotal
+                JEditorPane subtotalTextBox = new JEditorPane("subtotal text box");
+                manager.add(subtotalTextBox,BorderLayout.WEST);
+
+                //menu selector
+                JPanel menuSelectorPanel = new JPanel();
+
+                //coffee
+                coffeeButton = new JButton("Coffee");
+                coffeeButton.setPreferredSize(new Dimension(100, 50));
+
+                menuSelectorPanel.add(coffeeButton,BorderLayout.NORTH);
+
+                //tea and hot chocolate
+                teaButton = new JButton("Tea/Misc");
+                teaButton.setPreferredSize(new Dimension(100, 50));
+
+                menuSelectorPanel.add(teaButton,BorderLayout.CENTER);
+
+                //food
+                foodButton = new JButton("Food");
+                foodButton.setPreferredSize(new Dimension(100, 50));
+
+                menuSelectorPanel.add(teaButton,BorderLayout.EAST);
+
+                manager.add(menuSelectorPanel,BorderLayout.CENTER);
+
+                //grid of menu items
+                // this will be replaced by the grid of menu items with action listeners on the menu buttons
+                JEditorPane gridItems = new JEditorPane("grid of items");
+                manager.add(gridItems,BorderLayout.EAST);
+
+
+
                 manager.add(backButton2, BorderLayout.SOUTH);  // Add the back button to the bottom of the frame
                 
                 manager.setVisible(true);
