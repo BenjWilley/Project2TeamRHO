@@ -61,9 +61,6 @@ public class RestaurantPOS extends JFrame {
                 subtotalTextBox.setEditable(false);
                 server.add(subtotalTextBox,BorderLayout.WEST);
 
-
-
-
                 // Create a JPanel with a CardLayout
                 JPanel itemPanel = new JPanel(new CardLayout());
                 
@@ -97,7 +94,7 @@ public class RestaurantPOS extends JFrame {
 
 
                         class Order{
-                            String drink;
+                            String drink = "Freshly Brewed Coffee";
                             String size;
                             boolean customization = false;
                             double price = 0.0;
@@ -173,7 +170,7 @@ public class RestaurantPOS extends JFrame {
                         //adding the order button
                         coffee.add(orderCoffeeButton);
                         
-                        String sql = "SELECT * FROM menu where item = " + order.drink;
+                        String sql = "SELECT * FROM menu where item = '" + order.drink+"';";
 
                         try{
                             Statement stmt = conn.createStatement();
@@ -195,6 +192,7 @@ public class RestaurantPOS extends JFrame {
                             }
                             System.out.println(order.price);
                         } catch(SQLException s){
+                            System.out.println("HI");
                             s.printStackTrace();
                         }
 
@@ -557,6 +555,7 @@ public class RestaurantPOS extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
     }
 
     public static void main(String[] args) {
