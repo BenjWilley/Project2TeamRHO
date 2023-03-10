@@ -3,12 +3,23 @@ import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class RestaurantPOS extends JFrame {
 
+public class RestaurantPOS extends JFrame {
+    /**
+     * This is the main class of the POS
+     * @author Ashwin Kundeti Ben Willey Emil Agbigay Olen Brown
+     * @version 1.0
+     */
+
+    /**
+     * Server button leads to server page and manager button leads to manager page
+     * @author Ashwin Kundeti Ben Willey Emil Agbigay Olen Brown
+     */
     private JButton serverButton;
     private JButton managerButton;
-    private Connection conn;
+    private Connection conn = null;
 
+    
     public RestaurantPOS() {
         try {
             // Establish a connection to the database
@@ -17,15 +28,6 @@ public class RestaurantPOS extends JFrame {
             System.out.println("Connected to database");
         } catch (SQLException e) {
             System.err.println("Error connecting to database: " + e.getMessage());
-        }
-        finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error closing database connection: " + e.getMessage());
-            }
         }
 
         // Initialize the buttons
@@ -83,9 +85,6 @@ public class RestaurantPOS extends JFrame {
                         JRadioButton grandeSelect  = new JRadioButton();
                         JRadioButton ventiSelect  = new JRadioButton();
                         JCheckBox extraEspressoSelect  = new JCheckBox();
-                        
-                        // making the order button
-                        JButton orderCoffeeButton = new JButton("Order");
 
 
                         // grouping the buttons
@@ -94,7 +93,7 @@ public class RestaurantPOS extends JFrame {
 
 
                         class Order{
-                            String drink = "Freshly Brewed Coffee";
+                            String drink;
                             String size;
                             boolean customization = false;
                             double price = 0.0;
@@ -114,7 +113,7 @@ public class RestaurantPOS extends JFrame {
                                 order.drink = espressoSelect.getText();
                             }
                         });
-                        frapSelect.setText("Frappuccino Coffee");
+                        frapSelect.setText("Mocha");
                         frapSelect.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
                                 order.drink = frapSelect.getText();
@@ -142,7 +141,12 @@ public class RestaurantPOS extends JFrame {
                         extraEspressoSelect.setText("Extra Espresso Shot");
                         extraEspressoSelect.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                order.customization = true;
+                                if(extraEspressoSelect.isSelected()){
+                                    order.customization = true;
+                                }
+                                else{
+                                    order.customization = false;
+                                }
                             }
                         });
 
@@ -167,34 +171,49 @@ public class RestaurantPOS extends JFrame {
                         customSelection.add(grandeSelect);
                         customSelection.add(ventiSelect);
 
+                        // making the order button
+                        JButton orderCoffeeButton = new JButton("Order");
+                        orderCoffeeButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                String sql = "SELECT * FROM menu where item = '" +order.drink+"'";
+
+                                try{
+                                    Statement stmt = conn.createStatement();
+                                    ResultSet rs = stmt.executeQuery(sql);
+                                    if(order.size == "tall"){
+                                        while(rs.next()){
+                                            order.price = rs.getDouble(4);
+                                        }  
+                                    }
+                                    else if(order.size == "grande"){
+                                        while(rs.next()){
+                                            order.price = rs.getDouble(5);
+                                        } 
+                                    }
+                                    else {
+                                        while(rs.next()){
+                                            order.price = rs.getDouble(6);
+                                        } 
+                                    }
+
+                                    if(order.customization){
+                                        order.price += 1;
+                                    }
+                                    else{
+
+                                    }
+                                } catch(SQLException s){
+                                    System.out.println("HI");
+                                    s.printStackTrace();
+                                }
+                                System.out.println("Drink: " + order.drink + " Size: " + order.size + " Espresso Shots: " + order.customization + " Price: " + order.price);
+                            }
+                        });
+
                         //adding the order button
                         coffee.add(orderCoffeeButton);
                         
-                        String sql = "SELECT * FROM menu where item = '" + order.drink+"';";
-
-                        try{
-                            Statement stmt = conn.createStatement();
-                            ResultSet rs = stmt.executeQuery(sql);
-                            if(order.size == "tall"){
-                                while(rs.next()){
-                                    order.price = rs.getDouble(4);
-                                }  
-                            }
-                            else if(order.size == "grande"){
-                                while(rs.next()){
-                                    order.price = rs.getDouble(5);
-                                } 
-                            }
-                            else{
-                                while(rs.next()){
-                                    order.price = rs.getDouble(6);
-                                } 
-                            }
-                            System.out.println(order.price);
-                        } catch(SQLException s){
-                            System.out.println("HI");
-                            s.printStackTrace();
-                        }
+                        
 
             //Teas
                 JPanel tea = new JPanel();
@@ -438,13 +457,12 @@ public class RestaurantPOS extends JFrame {
                 JLabel inventory = new JLabel("Inventory");
                 Font invFont = inventory.getFont();
                 inventory.setFont(new Font(invFont.getName(),invFont.getStyle(),24));
-                manager.add(inventory, BorderLayout.NORTH);
-                manager.add(new JLabel(), BorderLayout.EAST);
+                manager.add(inventory,BorderLayout.NORTH);
                 manager.getContentPane();
 
 
                 // adding the scrolling list
-                JPanel inventoryList = new JPanel(new BorderLayout());
+                //JPanel inventoryList = new JPanel(new BorderLayout());
                 // JTextArea inventoryArea = new JTextArea(10, 30);
                 DefaultListModel<String> itemList = new DefaultListModel<>();
                 itemList.addElement("TallCups");
@@ -477,58 +495,117 @@ public class RestaurantPOS extends JFrame {
                 itemList.addElement("Half-n-HalfCups");
                 itemList.addElement("HeavyCreamCups");
                 JList<String> list = new JList<>(itemList);
-                JScrollPane inventoryScroll = new JScrollPane(list);
-                inventoryList.add(inventoryScroll, BorderLayout.WEST);
+                //JScrollPane inventoryScroll = new JScrollPane(list);
+                //inventoryList.add(inventoryScroll, BorderLayout.WEST);
                 //manager.getContentPane().add(inventoryList);
 
                 // Restock Bar
-                JPanel restock = new JPanel(new BorderLayout());
+                //JPanel restock = new JPanel(new BorderLayout());
                 DefaultListModel<String> RestockList = new DefaultListModel<>();
                 RestockList.addElement("good");
                 RestockList.addElement("good");
+                RestockList.addElement("low");
                 RestockList.addElement("good");
+                RestockList.addElement("out");
                 RestockList.addElement("good");
+                RestockList.addElement("out");
                 RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                JList<String> RestockListJ = new JList<>(RestockList);
-                JScrollPane RestockScroll = new JScrollPane(RestockListJ);
-                restock.add(RestockScroll, BorderLayout.WEST);
-
-                JPanel itemRestock = new JPanel(new GridLayout(1,1));
-                itemRestock.add(inventoryList);
-                itemRestock.add(restock);
-                manager.add(itemRestock);
-                //manager.getContentPane().add(restock);
                 
-                manager.setVisible(true);
+                RestockList.addElement("good");
+                RestockList.addElement("out");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                
+                RestockList.addElement("good");
+                RestockList.addElement("out");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("low");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+                RestockList.addElement("good");
+
+                JList<String> RestockListJ = new JList<>(RestockList);
+              
+                //lists added to panel
+                JPanel itemPanel = new JPanel();
+                itemPanel.setLayout(new GridLayout(1,1));
+                itemPanel.add(list);
+                itemPanel.add(RestockListJ);
+                
+            
+
+                // puts into viewable list pair
+                JScrollPane itemScroll = new JScrollPane();
+                itemScroll.setViewportView(itemPanel);
+            
+
+                // Trends side
+                JPanel trendsPanel = new JPanel(new GridLayout(0,1));
+
+                // drop down for weeks
+                
+                String[] weeks = new String[52];
+                for(int i = 0;i < 52;i++){
+                    String addWeek = "week ";
+                    addWeek = addWeek + String.valueOf(i+1);
+                    weeks[i] = addWeek;
+                }
+                JComboBox<String> cb = new JComboBox<String>(weeks);
+                trendsPanel.add(cb);
+                
+                //order trends
+                DefaultListModel<String> preorderList = new DefaultListModel<>();
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                preorderList.addElement("1-Cold Brew  x96");
+                preorderList.addElement("2-Oat Milk Espress  x86");
+                preorderList.addElement("3-Caramel Macchiato  x84");
+                JList<String> orderList = new JList<>(preorderList);
+                JScrollPane orderScroll = new JScrollPane();
+                orderScroll.setViewportView(orderList);
+                trendsPanel.add(orderScroll);
+                
+                //put all panels together
+                JPanel inventoryPanel = new JPanel(new GridLayout(1,1));
+                inventoryPanel.add(itemScroll);
+                inventoryPanel.add(trendsPanel);
+
+                
+                manager.add(inventoryPanel);
+
                 manager.setSize(1000, 600);
+                manager.setVisible(true);
                 manager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 manager.setLocationRelativeTo(null);
                 manager.setVisible(true);
@@ -555,6 +632,14 @@ public class RestaurantPOS extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        // try {
+        //     if (conn != null) {
+        //         conn.close();
+        //     }
+        // } catch (SQLException e) {
+        //     System.err.println("Error closing database connection: " + e.getMessage());
+        // }
 
     }
 
