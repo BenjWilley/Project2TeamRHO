@@ -1,0 +1,1 @@
+psql -h csce-315-db.engr.tamu.edu -U csce315331_rho_master -d csce315331_rho
