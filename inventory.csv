@@ -9,22 +9,37 @@ ID,Items,Quantity
 8,DarkGrounds(oz.),100000
 9,Teabags,100000
 10,WholeMilk(oz.),100000
-11,2%(oz.),100000
-12,NonFatMilk(oz.),100000
-13,SoyMilk(oz.),100000
-14,AlmondMilk(oz.),100000
-15,OatMilk(oz.),100000
-16,CoconutMilk(oz.),100000
-17,CaramelSyrupPumps,100000
-18,VanillaSyrupPumps,100000
-19,No-sugarVanillaSyrup,100000
-20,PeppermintSyrupPumps,100000
-21,WhiteMochaSauce,100000
-22,CaramelDrizzle,100000
-23,StrawberryAcaiBase,100000
-24,MangoDragonfruitBase,100000
-25,FrappuccinoCremeBase,100000
-26,FrappuccinoCoffeeBase,100000
-27,ChocolateChips,100000
-28,Half-n-HalfCups,100000
-29,HeavyCreamCups,100000
+11,SoyMilk(oz.),100000
+12,CaramelSyrupPumps,100000
+13,VanillaSyrupPumps,100000
+14,No-sugarVanillaSyrup,100000
+15,PeppermintSyrupPumps,100000
+16,WhiteMochaSauce,100000
+17,CaramelDrizzle,100000
+18,StrawberryAcaiBase,100000
+19,MangoDragonfruitBase,100000
+20,FrappuccinoCremeBase,100000
+21,FrappuccinoCoffeeBase,100000
+22,ChocolateChips,100000
+23,Half-n-HalfCups,100000
+24,HeavyCreamCups,100000
+25,Double Smoked Bacon and Cheddar,100000
+26,Sausage and Cheddar,100000
+27,Bacon and Gouda,100000
+28,Chicken Sausage and Bacon Biscuit,100000
+29,Spicy Chorizo Monterey Jack and Egg,100000
+30,"Spinach, Feta and Cage-Free Egg White Wrap",100000
+31,Blueberry Oatmeal,100000
+32,Classic Oatmeal,100000
+33,Banana Nut Bread,100000
+34,Iced Lemon Loaf Cake,100000
+35,Pumpkin Bread,100000
+36,Blueberry Muffin,100000
+37,Cheese Danish,100000
+38,Choclate Croissant,100000
+39,Butter Croissant,100000
+40,Ham and Cheese Croissant,100000
+41,Cake Pop,100000
+42,Classic Coffee Cake,100000
+43,Choclate Chip Cookie,100000
+44,Double Choclate Chuck Brownie,100000

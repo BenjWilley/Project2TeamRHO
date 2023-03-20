@@ -137,7 +137,7 @@ def loadMenu(menu, file):
 
 menu = Menu()
 
-file = open(r"C:\Users\ohbro\Downloads\StarbucksMenu.csv", "r")
+file = open(r"C:\Users\Ashwin\Documents\CSCE331\menu\StarbucksMenu.csv", "r")
 
 loadMenu(menu, file)
 
