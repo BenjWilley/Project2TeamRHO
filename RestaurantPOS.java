@@ -1,4 +1,8 @@
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
 import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,6 +22,7 @@ public class RestaurantPOS extends JFrame {
     private JButton serverButton;
     private JButton managerButton;
     private Connection conn = null;
+    private double total = 0.0;
 
     
     public RestaurantPOS() {
@@ -59,7 +64,7 @@ public class RestaurantPOS extends JFrame {
 
                 //subtotal
                 JTextPane subtotalTextBox = new JTextPane();
-                subtotalTextBox.setText("Subtotal: $$$");
+                subtotalTextBox.setText("Subtotal: $$$\n");
                 subtotalTextBox.setEditable(false);
                 server.add(subtotalTextBox,BorderLayout.WEST);
 
@@ -207,6 +212,20 @@ public class RestaurantPOS extends JFrame {
                                     s.printStackTrace();
                                 }
                                 System.out.println("Drink: " + order.drink + " Size: " + order.size + " Espresso Shots: " + order.customization + " Price: " + order.price);
+
+                                StyledDocument edit = subtotalTextBox.getStyledDocument();
+
+                                SimpleAttributeSet keyWord = new SimpleAttributeSet();
+                                StyleConstants.setForeground(keyWord, Color.BLACK);
+                                StyleConstants.setBackground(keyWord, Color.WHITE);
+                                StyleConstants.setBold(keyWord, false);
+
+                                try{
+                                    edit.insertString(edit.getLength(), "\n" + order.drink + " " + order.size + " " + order.price, keyWord);
+                                }
+                                catch(Exception d){
+                                    System.out.println(d);
+                                }
                             }
                         });
 
@@ -412,7 +431,6 @@ public class RestaurantPOS extends JFrame {
                     }
                 });
                 menuSelectorPanel.add(breakfastButton);
-
 
                 menuSelectorPanel.setPreferredSize(new Dimension(300, 300));
 
