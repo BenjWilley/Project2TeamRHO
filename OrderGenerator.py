@@ -28,7 +28,7 @@ class Drink:
         self.id = id
         self.customizations = []
         self.sub_category = sub_category
-    
+
     def updateName(self, new_name):
         self.name = new_name
 
@@ -90,7 +90,7 @@ class Order:
         self.drinks = []
         self.foods = []
         self.total = 0
-    
+
     def addDrink(self, drink):
         self.drinks.append(drink)
         self.total += float(drink.price)
@@ -166,7 +166,7 @@ def generate_order(date): # date in the format mm/dd/yyyy
             pick.addCustomization(custom_pick)
 
         order.addDrink(pick)
-    
+
     return order
 
 def print_order(order):
@@ -191,6 +191,8 @@ def print_order(order):
 
 file_out = open("order_data.csv", 'wt')
 
+file_out.write("mm-dd-yyyy HH:MM:SS, order_id, sub_category, price, name, item_id, shots, venti_iced, syrup, non_dairy\n")
+
 days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 order_id = 1
@@ -202,9 +204,14 @@ game_day_one_day = 9
 game_day_two_month = 11
 game_day_two_day = 25
 
+year = 2022
+
 for month in range(12):
+    month = (month + 2) % 12
+    if month == 1:
+        year += 1
     for day in range(days_in_month[month]):
-            
+
             random_times = []
 
             '''
@@ -212,13 +219,9 @@ for month in range(12):
                 hour = random.randrange(12) + 8
                 minute = random.randrange(60)
                 second = random.randrange(60)
-
                 date = datetime.datetime(2023, month + 1, day + 1, hour, minute, second)
-
                 date_str = date.strftime("%m-%d-%Y %H:%M:%S")
-
                 random_times.append(date_str)
-
             sort(random_times)
             '''
             num_orders = random.randrange(500, 700)
@@ -228,8 +231,17 @@ for month in range(12):
                 num_orders = random.randrange(1200, 1500)
 
             for i in range(num_orders):
-                order = generate_order("00/00/0000")
+                hour = random.randrange(12) + 8
+                minute = random.randrange(60)
+                second = random.randrange(60)
+                date = datetime.datetime(year, month + 1, day + 1, hour, minute, second)
+                date_str = date.strftime("%m-%d-%Y %H:%M:%S")
+                random_times.append(date_str)
+            random_times.sort()
 
+            for i in range(num_orders):
+                order = generate_order("00/00/0000")
+                '''
                 hour = random.randrange(12) + 8
                 minute = random.randrange(60)
                 second = random.randrange(60)
@@ -237,8 +249,10 @@ for month in range(12):
                 date = datetime.datetime(2023, month + 1, day + 1, hour, minute, second)
 
                 date_str = date.strftime("%m-%d-%Y %H:%M:%S")
+                '''
+                date_str = random_times[i]
 
-            
+
                 for drink in order.drinks:
 
                     shots = False
@@ -260,21 +274,9 @@ for month in range(12):
                     string = date_str + ", " + str(order_id) + ", " + drink.sub_category + ", " + str(round(food.price, 2)) + ", " + food.name + ", " + str(food.id) + ", False, False, False, False\n"
                     file_out.write(string)
 
-                
+
                 # FORMAT: mm-dd-yyyy HH:MM:SS, order_id, sub_category, price, name, item_id, shots, venti_iced, syrup, non_dairy
 
                 order_id += 1
 
 file_out.close()
-
-
-
-
-
-
-
-
-
-
-    
-
