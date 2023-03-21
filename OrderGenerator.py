@@ -197,6 +197,11 @@ order_id = 1
 
 random_times = []
 
+game_day_one_month = 9
+game_day_one_day = 9
+game_day_two_month = 11
+game_day_two_day = 25
+
 for month in range(12):
     for day in range(days_in_month[month]):
             
@@ -216,8 +221,13 @@ for month in range(12):
 
             sort(random_times)
             '''
+            num_orders = random.randrange(500, 700)
+            if month == game_day_one_month and day == game_day_one_day:
+                num_orders = random.randrange(1100, 1300)
+            elif month == game_day_two_month and day == game_day_two_day:
+                num_orders = random.randrange(1200, 1500)
 
-            for i in range(random.randrange(100)):
+            for i in range(num_orders):
                 order = generate_order("00/00/0000")
 
                 hour = random.randrange(12) + 8
