@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import javax.swing.table.*;
 
 import java.sql.*;
 import java.awt.*;
@@ -909,7 +910,7 @@ public class RestaurantPOS extends JFrame {
                 RestockList.addElement("good");
 
                 JList<String> RestockListJ = new JList<>(RestockList);
-              
+
                 //xReport and zReport///////////////////////////////////////////////////////////////////////////////
                 JButton xReportButton = new JButton("X Report");
                         
@@ -981,7 +982,6 @@ public class RestaurantPOS extends JFrame {
                 itemPanel.add(list);
                 itemPanel.add(RestockListJ);
                 
-
                 ///PHASE 4 Requirement Buttons
                 JPanel controlPanel = new JPanel();
                 controlPanel.setLayout(new GridLayout(0,1));
@@ -993,63 +993,86 @@ public class RestaurantPOS extends JFrame {
                 controlPanel.add(xReportButton);
                 controlPanel.add(zReportButton);
                 itemPanel.add(controlPanel);
+            
 
                 // puts into viewable list pair
                 JScrollPane itemScroll = new JScrollPane();
                 itemScroll.setViewportView(itemPanel);
-            
+
 
                 // Trends side
                 JPanel trendsPanel = new JPanel(new GridLayout(0,1));
 
                 // drop down for weeks
+                JPanel dateRange = new JPanel(new GridLayout(3,1));
                 
-                String[] weeks = new String[52];
-                for(int i = 0;i < 52;i++){
-                    String addWeek = "week ";
-                    addWeek = addWeek + String.valueOf(i+1);
-                    weeks[i] = addWeek;
-                }
-                JComboBox<String> cb = new JComboBox<String>(weeks);
-                trendsPanel.add(cb);
+                JLabel dateText = new JLabel("Enter date range mm-dd-yyyy/mm-dd-yyyy");
+                dateRange.add(dateText);
+
+                JTextField inputDate = new JTextField();
+                inputDate.setLayout(new GridLayout(1,2));
+
+                dateRange.add(inputDate, BorderLayout.CENTER);
+
+
+                JButton dateButton = new JButton("Enter");
+            
+                dateRange.add(dateButton);
+
+                trendsPanel.add(dateRange);
+
+                JTable dateTable = new JTable();
+                JScrollPane dateScroll = new JScrollPane();
+                dateScroll.setViewportView(dateTable);
+
+                dateButton.addActionListener(new ActionListener(){
+                    public void actionPerformed (ActionEvent e) {
+                        
+                        try{
+                            String twoDates = inputDate.getText();
+                            String[] splitDates = twoDates.split("/");
+                            String firstID = splitDates[0];
+                            String secondID = splitDates[1];
+                            String sql = "SELECT name, COUNT(*) FROM sales WHERE sales.date >= '"+firstID+"' and sales.date <= '"+secondID+ "' GROUP BY name";
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(sql);
+                            ResultSetMetaData rsmd = rs.getMetaData();
+
+                            DefaultTableModel model = (DefaultTableModel) dateTable.getModel();
+
+                            
+                            int cols = rsmd.getColumnCount();
+                            String[] colName=new String[cols];
+                            for(int i =0;i < cols;i++){
+                                colName[i] = rsmd.getColumnName(i+1);
+                            }
+                            model.setColumnIdentifiers(colName);
+
+                            String itemName, quantity; 
+                            while(rs.next()){
+                                itemName = rs.getString(1);
+                                quantity = rs.getString(2);
+                                String[] row = {itemName, quantity};
+                                model.addRow(row);
+                            }
+                            stmt.close();
+                            conn.close();
+                        }
+                        catch(SQLException s){
+                                    System.out.println("HI");
+                                    s.printStackTrace();
+                        }
+                    }
+                });
                 
-                //order trends
-                DefaultListModel<String> preorderList = new DefaultListModel<>();
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                preorderList.addElement("1-Cold Brew  x96");
-                preorderList.addElement("2-Oat Milk Espress  x86");
-                preorderList.addElement("3-Caramel Macchiato  x84");
-                JList<String> orderList = new JList<>(preorderList);
-                JScrollPane orderScroll = new JScrollPane();
-                orderScroll.setViewportView(orderList);
-                trendsPanel.add(orderScroll);
+                trendsPanel.add(dateScroll);
                 
+               
                 //put all panels together
                 JPanel inventoryPanel = new JPanel(new GridLayout(1,1));
                 inventoryPanel.add(itemScroll);
                 inventoryPanel.add(trendsPanel);
-                
-    
+
                 
                 manager.add(inventoryPanel);
 
@@ -1082,13 +1105,6 @@ public class RestaurantPOS extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        // try {
-        //     if (conn != null) {
-        //         conn.close();
-        //     }
-        // } catch (SQLException e) {
-        //     System.err.println("Error closing database connection: " + e.getMessage());
-        // }
 
     }
 
