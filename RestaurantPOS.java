@@ -919,6 +919,10 @@ public class RestaurantPOS extends JFrame {
 
                     } 
                 } );
+
+
+
+
                 JButton zReportButton = new JButton("Z Report");
                 
                 zReportButton.addActionListener(new ActionListener() { 
@@ -941,20 +945,54 @@ public class RestaurantPOS extends JFrame {
                 } );
 
 
+                 // making the seasonal menu items
+                 JButton addSeasonal= new JButton("Add To Menu");
+                 JTextField seasonalMenu =  new JTextField("Item Name");
+                 JTextField seasonalPrice =  new JTextField("Item Price(double)");
+                class OrderSeasonal{
+                            String drink="";
+                            double price = 0.0;
+                        }
+
+                        final OrderSeasonal orderSeason = new OrderSeasonal();
+
+
+                        addSeasonal.addActionListener(new ActionListener() { 
+                            public void actionPerformed(ActionEvent e) { 
+                                orderSeason.drink = seasonalMenu.getText();
+                                orderSeason.price = Double.parseDouble(seasonalPrice.getText());
+                                
+
+                                System.out.println("Seasonal Item: "+orderSeason.drink+ " at $"+ orderSeason.price+" has been added to the menu");
+                              
+                            } 
+                        } );
+
+                 
+
+
+                
                 
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 //lists added to panel
                 JPanel itemPanel = new JPanel();
-                itemPanel.setLayout(new GridLayout(2,1));
+                itemPanel.setLayout(new GridLayout(1,1));
                 itemPanel.add(list);
                 itemPanel.add(RestockListJ);
-                itemPanel.add(xReportButton);
-                itemPanel.add(zReportButton);
+                
 
-                
-                
-            
+                ///PHASE 4 Requirement Buttons
+                JPanel controlPanel = new JPanel();
+                controlPanel.setLayout(new GridLayout(0,1));
+                JLabel seasonalLabel = new JLabel("Add Seasonal Item");
+                controlPanel.add(seasonalLabel);
+                controlPanel.add(seasonalMenu);
+                controlPanel.add(seasonalPrice);
+                controlPanel.add(addSeasonal);
+                controlPanel.add(xReportButton);
+                controlPanel.add(zReportButton);
+                itemPanel.add(controlPanel);
 
                 // puts into viewable list pair
                 JScrollPane itemScroll = new JScrollPane();
@@ -1010,6 +1048,7 @@ public class RestaurantPOS extends JFrame {
                 JPanel inventoryPanel = new JPanel(new GridLayout(1,1));
                 inventoryPanel.add(itemScroll);
                 inventoryPanel.add(trendsPanel);
+                
     
                 
                 manager.add(inventoryPanel);
