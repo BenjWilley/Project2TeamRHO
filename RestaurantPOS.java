@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 
+//added for the z report filename
+import java.time.LocalDate;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 public class RestaurantPOS extends JFrame {
     /**
      * This is the main class of the POS
@@ -23,9 +29,18 @@ public class RestaurantPOS extends JFrame {
     private JButton managerButton;
     private Connection conn = null;
     private double total = 0.0;
-
+    private String report = "Report \n";
+    private double revenue=0;
     
     public RestaurantPOS() {
+
+        //Global variables for the x/z Reports
+
+        
+
+
+
+
         try {
             // Establish a connection to the database
             conn = DriverManager.getConnection("jdbc:postgresql://csce-315-db.engr.tamu.edu/csce315331_rho",
@@ -81,9 +96,14 @@ public class RestaurantPOS extends JFrame {
                 coffee.setLayout(new GridLayout(0,1));
                 
                 //adding coffee options
-                        JRadioButton coffeeSelect  = new JRadioButton();
+                        JRadioButton brewCoffeeSelect  = new JRadioButton();
                         JRadioButton espressoSelect  = new JRadioButton();
-                        JRadioButton frapSelect  = new JRadioButton();
+                        JRadioButton mochaSelect  = new JRadioButton();
+                        JRadioButton carmSelect  = new JRadioButton();
+                        JRadioButton latteSelect  = new JRadioButton();
+                        JRadioButton iceSelect  = new JRadioButton();
+                        JRadioButton coldSelect  = new JRadioButton();
+                        JRadioButton hotSelect  = new JRadioButton();
 
                         //adding customization options
                         JRadioButton tallSelect  = new JRadioButton();
@@ -98,18 +118,18 @@ public class RestaurantPOS extends JFrame {
 
 
                         class Order{
-                            String drink;
-                            String size;
+                            String drink="Freshly Brewed Coffee";
+                            String size="grande";
                             boolean customization = false;
                             double price = 0.0;
                         }
                         final Order order = new Order();
 
                         //assigning text to the buttons
-                        coffeeSelect.setText("Freshly Brewed Coffee");
-                        coffeeSelect.addActionListener(new ActionListener() {
+                        brewCoffeeSelect.setText("Freshly Brewed Coffee");
+                        brewCoffeeSelect.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                order.drink = coffeeSelect.getText();
+                                order.drink = brewCoffeeSelect.getText();
                             }
                         });
                         espressoSelect.setText("Cappuccino");
@@ -118,12 +138,45 @@ public class RestaurantPOS extends JFrame {
                                 order.drink = espressoSelect.getText();
                             }
                         });
-                        frapSelect.setText("Mocha");
-                        frapSelect.addActionListener(new ActionListener() {
+                        hotSelect.setText("Hot Chocolate");
+                        hotSelect.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {
-                                order.drink = frapSelect.getText();
+                                order.drink = hotSelect.getText();
                             }
                         });
+
+                        mochaSelect.setText("Caffe Mocha");
+                        mochaSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = mochaSelect.getText();
+                            }
+                        });
+                        carmSelect.setText("Caramel Macchiato");
+                        carmSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = carmSelect.getText();
+                            }
+                        });
+                        latteSelect.setText("Caffe Latte");
+                        latteSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = latteSelect.getText();
+                            }
+                        });
+
+                        iceSelect.setText("Ice Coffee");
+                        iceSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = iceSelect.getText();
+                            }
+                        });
+                        coldSelect.setText("Cold Brew Coffee");
+                        coldSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                order.drink = coldSelect.getText();
+                            }
+                        });
+
 
                         tallSelect.setText("Tall");
                         tallSelect.addActionListener(new ActionListener() {
@@ -157,9 +210,15 @@ public class RestaurantPOS extends JFrame {
 
                         //adding all of the selections
                         coffee.add(new JLabel("Coffee Selection"));
-                        coffee.add(coffeeSelect);
+                        coffee.add(brewCoffeeSelect);
                         coffee.add(espressoSelect);
-                        coffee.add(frapSelect);
+                        coffee.add(mochaSelect);
+                        coffee.add(carmSelect);
+                        coffee.add(latteSelect);
+                        coffee.add(iceSelect);
+                        coffee.add(coldSelect);
+                        coffee.add(hotSelect);
+
 
                         coffee.add(new JLabel("Customizations"));
                         coffee.add(tallSelect);
@@ -168,13 +227,20 @@ public class RestaurantPOS extends JFrame {
                         coffee.add(extraEspressoSelect);
 
                         //adding the buttons to their respective groups
-                        drinkSelection.add(coffeeSelect);
+                        drinkSelection.add(brewCoffeeSelect);
                         drinkSelection.add(espressoSelect);
-                        drinkSelection.add(frapSelect);
+                        drinkSelection.add(mochaSelect);
+                        drinkSelection.add(carmSelect);
+                        drinkSelection.add(latteSelect);
+                        drinkSelection.add(iceSelect);
+                        drinkSelection.add(coldSelect);
+                        drinkSelection.add(hotSelect);
+                        brewCoffeeSelect.setSelected(true);
 
                         customSelection.add(tallSelect);
                         customSelection.add(grandeSelect);
                         customSelection.add(ventiSelect);
+                        grandeSelect.setSelected(true);
 
                         // making the order button
                         JButton orderCoffeeButton = new JButton("Order");
@@ -222,6 +288,11 @@ public class RestaurantPOS extends JFrame {
 
                                 try{
                                     edit.insertString(edit.getLength(), "\n" + order.drink + " " + order.size + " " + order.price, keyWord);
+
+                                    //this is for the reports X/Z
+                                    report+="\n" + order.drink + " " + order.size + " $" + order.price;
+                                    
+                                    revenue +=order.price;
                                 }
                                 catch(Exception d){
                                     System.out.println(d);
@@ -239,9 +310,11 @@ public class RestaurantPOS extends JFrame {
                 tea.setLayout(new GridLayout(0,1));
                     //adding tea options
                         JRadioButton mintSelect  = new JRadioButton();
-                        JRadioButton herbalSelect  = new JRadioButton();
-                        JRadioButton greenSelect  = new JRadioButton();
-                        JRadioButton hotCocoSelect  = new JRadioButton();
+                        JRadioButton chaiSelect  = new JRadioButton();
+                        JRadioButton greySelect  = new JRadioButton();
+                        JRadioButton royalSelect  = new JRadioButton();
+                        JRadioButton peachSelect  = new JRadioButton();
+                        JRadioButton blackSelect  = new JRadioButton();
 
                         //adding customization options
                         JRadioButton tallTeaSelect  = new JRadioButton();
@@ -258,23 +331,85 @@ public class RestaurantPOS extends JFrame {
                         ButtonGroup customTeaSelection = new ButtonGroup();
 
 
+                        class OrderTea{
+                            String drink="Mint Majesty";
+                            String size="grande";
+                            double price = 0.0;
+                        }
+                        final OrderTea orderTea = new OrderTea();
+
+           
                         //assigning text to the buttons
-                        mintSelect.setText("Peppermint Tea");
-                        herbalSelect.setText("Herbal Tea");
-                        greenSelect.setText("Green Tea");
-                        hotCocoSelect.setText("Hot Chocolate");
+                        mintSelect.setText("Mint Majesty");
+                        mintSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = mintSelect.getText();
+                            }
+                        });
+                        royalSelect.setText("Royal English Breakfast");
+                        royalSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = royalSelect.getText();
+                            }
+                        });
+                        chaiSelect.setText("Chai");
+                        chaiSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = chaiSelect.getText();
+                            }
+                        });
+                        greySelect.setText("Earl Grey");
+                        greySelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = greySelect.getText();
+                            }
+                        });
+                        peachSelect.setText("Peach Tranquility");
+                        peachSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = peachSelect.getText();
+                            }
+                        });
+                        
+                        blackSelect.setText("Shaken Iced Black Tea");
+                        blackSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = blackSelect.getText();
+                            }
+                        });
+
+
 
                         tallTeaSelect.setText("Tall");
+                        tallTeaSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.size = "tall";
+                            }
+                        });
                         grandeTeaSelect.setText("Grande");
+                        grandeTeaSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.size = "grande";
+                            }
+                        });
                         ventiTeaSelect.setText("Venti");
-                        
+                        ventiTeaSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.size = "venti";
+                            }
+                        });
+
+
 
                         //adding all of the selections
                         tea.add(new JLabel("Drink Selection"));
                         tea.add(mintSelect);
-                        tea.add(herbalSelect);
-                        tea.add(greenSelect);
-                        tea.add(hotCocoSelect);
+                        tea.add(chaiSelect);
+                        tea.add(greySelect);
+                        tea.add(peachSelect);
+                        tea.add(royalSelect);
+                        tea.add(blackSelect);
+
 
                         tea.add(new JLabel("Customizations"));
                         tea.add(tallTeaSelect);
@@ -284,16 +419,77 @@ public class RestaurantPOS extends JFrame {
 
                         //adding the buttons to their respective groups
                         teaSelection.add(mintSelect);
-                        teaSelection.add(herbalSelect);
-                        teaSelection.add(greenSelect);
-                        teaSelection.add(hotCocoSelect);
+                        teaSelection.add(chaiSelect);
+                        teaSelection.add(greySelect);
+                        teaSelection.add(peachSelect);
+                        teaSelection.add(royalSelect);
+                        teaSelection.add(blackSelect);
+                        mintSelect.setSelected(true);
 
                         customTeaSelection.add(tallTeaSelect);
                         customTeaSelection.add(grandeTeaSelect);
                         customTeaSelection.add(ventiTeaSelect);
+                        grandeTeaSelect.setSelected(true);
+
+
+                        orderTeaButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                
+                                String sql = "SELECT * FROM menu where item = '" +orderTea.drink+"'";
+
+                                try{
+                                    Statement stmt = conn.createStatement();
+                                    ResultSet rs = stmt.executeQuery(sql);
+                                    if(orderTea.size == "tall"){
+                                        while(rs.next()){
+                                            orderTea.price = rs.getDouble(4);
+                                        }  
+                                    }
+                                    else if(orderTea.size == "grande"){
+                                        while(rs.next()){
+                                            orderTea.price = rs.getDouble(5);
+                                        } 
+                                    }
+                                    else {
+                                        while(rs.next()){
+                                            orderTea.price = rs.getDouble(6);
+                                        } 
+                                    }
+
+                                
+                                } catch(SQLException s){
+                                    System.out.println("HI");
+                                    s.printStackTrace();
+                                }
+                                
+                                System.out.println("Drink: " + orderTea.drink + " Size: " + orderTea.size  +" Price: " + orderTea.price);
+
+                                StyledDocument edit = subtotalTextBox.getStyledDocument();
+
+                                SimpleAttributeSet keyWord = new SimpleAttributeSet();
+                                StyleConstants.setForeground(keyWord, Color.BLACK);
+                                StyleConstants.setBackground(keyWord, Color.WHITE);
+                                StyleConstants.setBold(keyWord, false);
+
+                                try{
+                                    edit.insertString(edit.getLength(), "\n" + orderTea.drink + " " + orderTea.size + " " + orderTea.price, keyWord);
+
+                                    //this is for the reports X/Z
+                                    report+="\n" + orderTea.drink + " " + orderTea.size + " $" + orderTea.price;
+                                    
+                                    revenue +=orderTea.price;
+                                }
+                                catch(Exception d){
+                                    System.out.println(d);
+                                }
+                            }
+                        });
 
                         //adding the order button
                         tea.add(orderTeaButton);
+
+
+
                 
             //Breakfast Items    
                 JPanel breakfast = new JPanel();
@@ -312,12 +508,38 @@ public class RestaurantPOS extends JFrame {
                         // grouping the buttons
                         ButtonGroup breakfastSelection = new ButtonGroup();
 
+                        class OrderBreak{
+                            String drink="Double Smoked Bacon and Cheddar";
+                            
+                            double price = 0.0;
+                        }
+                        final OrderBreak orderBreak = new OrderBreak();
 
                         //assigning text to the buttons
-                        eggSelect.setText("Egg Bites");
-                        sammySelect.setText("Bacon, Egg, and Cheese Sandwich");
-                        wrapSelect.setText("Bacon, Sausage, and Egg Wrap");
-                        impossibleSelect.setText("ImpossibleTM Breakfast Sandwich");
+                        eggSelect.setText("Double Smoked Bacon and Cheddar");
+                        eggSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderBreak.drink = eggSelect.getText();
+                            }
+                        });
+                        sammySelect.setText("Sausage and Cheddar");
+                        sammySelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderBreak.drink = sammySelect.getText();
+                            }
+                        });
+                        wrapSelect.setText("Chicken Sausage and Bacon Biscuit");
+                        wrapSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderBreak.drink = wrapSelect.getText();
+                            }
+                        });
+                        impossibleSelect.setText("Spicy Chorizo Monterey Jack and Egg");
+                        impossibleSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderBreak.drink = impossibleSelect.getText();
+                            }
+                        });
                        
                         
 
@@ -334,8 +556,59 @@ public class RestaurantPOS extends JFrame {
                         breakfastSelection.add(wrapSelect);
                         breakfastSelection.add(impossibleSelect);
 
+                        eggSelect.setSelected(true);
+
+
+                        orderBreakfastButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                
+                                String sql = "SELECT * FROM menu where item = '" +orderBreak.drink+"'";
+
+                                try{
+                                    Statement stmt = conn.createStatement();
+                                    ResultSet rs = stmt.executeQuery(sql);
+                                    
+                                        while(rs.next()){
+                                            orderBreak.price = rs.getDouble(4);
+                                        }
+                                    
+                                
+                                } catch(SQLException s){
+                                    System.out.println("HI");
+                                    s.printStackTrace();
+                                }
+                                
+                                System.out.println("Drink: " + orderBreak.drink + "  Price: " + orderBreak.price);
+
+                                StyledDocument edit = subtotalTextBox.getStyledDocument();
+
+                                SimpleAttributeSet keyWord = new SimpleAttributeSet();
+                                StyleConstants.setForeground(keyWord, Color.BLACK);
+                                StyleConstants.setBackground(keyWord, Color.WHITE);
+                                StyleConstants.setBold(keyWord, false);
+
+                                try{
+                                    edit.insertString(edit.getLength(), "\n" + orderBreak.drink + " " + orderBreak.price, keyWord);
+
+                                    //this is for the reports X/Z
+                                    report+="\n" + orderBreak.drink + "  $" + orderBreak.price;
+                                    
+                                    revenue +=orderBreak.price;
+                                }
+                                catch(Exception d){
+                                    System.out.println(d);
+                                }
+                            }
+                        });
+
                         //adding the order button
                         breakfast.add(orderBreakfastButton);
+                        class OrderBakery{
+                            String drink="Butter Croissant";
+    
+                            double price = 0.0;
+                        }
+                        final OrderBakery orderB = new OrderBakery();
 
                 JPanel bakery = new JPanel();
                 bakery.setLayout(new GridLayout(0,1));
@@ -354,10 +627,30 @@ public class RestaurantPOS extends JFrame {
 
 
                         //assigning text to the buttons
-                        crosSelect.setText("Buttered Croissant");
+                        crosSelect.setText("Butter Croissant");
+                        crosSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderB.drink = crosSelect.getText();
+                            }
+                        });
                         muffinSelect.setText("Blueberry Muffin");
-                        loafSelect.setText("Banana Nut Loaf");
-                        bagelSelect.setText("Everything Bagel");
+                        muffinSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderB.drink = muffinSelect.getText();
+                            }
+                        });
+                        loafSelect.setText("Iced Lemon Loaf Cake");
+                        loafSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderB.drink = loafSelect.getText();
+                            }
+                        });
+                        bagelSelect.setText("Banana Nut Bread");
+                        bagelSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderB.drink = bagelSelect.getText();
+                            }
+                        });
                        
                         
 
@@ -373,7 +666,49 @@ public class RestaurantPOS extends JFrame {
                         bakerySelection.add(muffinSelect);
                         bakerySelection.add(loafSelect);
                         bakerySelection.add(bagelSelect);
+                        crosSelect.setSelected(true);
 
+                        orderBakeryButton.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e){
+                                
+                                String sql = "SELECT * FROM menu where item = '" +orderB.drink+"'";
+
+                                try{
+                                    Statement stmt = conn.createStatement();
+                                    ResultSet rs = stmt.executeQuery(sql);
+                                    
+                                        while(rs.next()){
+                                            orderB.price = rs.getDouble(4);
+                                        }
+                                    
+                                
+                                } catch(SQLException s){
+                                    System.out.println("HI");
+                                    s.printStackTrace();
+                                }
+                                
+                                System.out.println("Drink: " + orderB.drink + "  Price: " + orderB.price);
+
+                                StyledDocument edit = subtotalTextBox.getStyledDocument();
+
+                                SimpleAttributeSet keyWord = new SimpleAttributeSet();
+                                StyleConstants.setForeground(keyWord, Color.BLACK);
+                                StyleConstants.setBackground(keyWord, Color.WHITE);
+                                StyleConstants.setBold(keyWord, false);
+
+                                try{
+                                    edit.insertString(edit.getLength(), "\n" + orderB.drink + " " + orderB.price, keyWord);
+
+                                    //this is for the reports X/Z
+                                    report+="\n" + orderB.drink + "  $" + orderB.price;
+                                    
+                                    revenue +=orderB.price;
+                                }
+                                catch(Exception d){
+                                    System.out.println(d);
+                                }
+                            }
+                        });
                         //adding the order button
                         bakery.add(orderBakeryButton);
 
@@ -556,11 +891,44 @@ public class RestaurantPOS extends JFrame {
 
                 JList<String> RestockListJ = new JList<>(RestockList);
               
+                //xReport and zReport///////////////////////////////////////////////////////////////////////////////
+                JButton xReportButton = new JButton("X Report");
+                        
+                xReportButton.addActionListener(new ActionListener() { 
+                    public void actionPerformed(ActionEvent e) { 
+                        System.out.println("X "+report+"\nrevenue:   $"+revenue+"\n\n");
+
+                    } 
+                } );
+                JButton zReportButton = new JButton("Z Report");
+                
+                zReportButton.addActionListener(new ActionListener() { 
+                    public void actionPerformed(ActionEvent e) { 
+
+                        try{
+                        FileWriter zReport = new FileWriter("ZReport"+LocalDate.now()+".txt");
+                         zReport.write("Z "+report+"\nrevenue:   $"+revenue+"\n");
+                        zReport.close();
+                        
+                        System.out.println("\nZ report stored in file: "+"ZReport"+LocalDate.now()+".txt\n");
+
+                        report= "Report \n";
+                        revenue = 0;
+                        } catch (IOException m) {
+                            System.out.println("Cant Name the z report that");
+                            m.printStackTrace();
+                          }
+                    } 
+                } );
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 //lists added to panel
                 JPanel itemPanel = new JPanel();
                 itemPanel.setLayout(new GridLayout(1,1));
                 itemPanel.add(list);
                 itemPanel.add(RestockListJ);
+                itemPanel.add(xReportButton);
+                itemPanel.add(zReportButton);
                 
             
 
@@ -618,7 +986,7 @@ public class RestaurantPOS extends JFrame {
                 JPanel inventoryPanel = new JPanel(new GridLayout(1,1));
                 inventoryPanel.add(itemScroll);
                 inventoryPanel.add(trendsPanel);
-
+    
                 
                 manager.add(inventoryPanel);
 
