@@ -246,6 +246,10 @@ public class RestaurantPOS extends JFrame {
                         JButton orderCoffeeButton = new JButton("Order");
                         orderCoffeeButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e){
+
+
+                                //2022-03-01 08:00:09 current Date format
+
                                 String sql = "SELECT * FROM menu where item = '" +order.drink+"'";
 
                                 try{
@@ -277,6 +281,9 @@ public class RestaurantPOS extends JFrame {
                                     System.out.println("HI");
                                     s.printStackTrace();
                                 }
+
+
+
                                 System.out.println("Drink: " + order.drink + " Size: " + order.size + " Espresso Shots: " + order.customization + " Price: " + order.price);
 
                                 StyledDocument edit = subtotalTextBox.getStyledDocument();
@@ -315,6 +322,7 @@ public class RestaurantPOS extends JFrame {
                         JRadioButton royalSelect  = new JRadioButton();
                         JRadioButton peachSelect  = new JRadioButton();
                         JRadioButton blackSelect  = new JRadioButton();
+                        JRadioButton seasonSelect  = new JRadioButton();
 
                         //adding customization options
                         JRadioButton tallTeaSelect  = new JRadioButton();
@@ -324,6 +332,7 @@ public class RestaurantPOS extends JFrame {
                         
                         // making the order button
                         JButton orderTeaButton = new JButton("Order");
+                        JTextField seasonal =  new JTextField(16);
 
 
                         // grouping the buttons
@@ -377,6 +386,12 @@ public class RestaurantPOS extends JFrame {
                                 orderTea.drink = blackSelect.getText();
                             }
                         });
+                        seasonSelect.setText("Seasonal drink");
+                        seasonSelect.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                orderTea.drink = seasonal.getText();
+                            }
+                        });
 
 
 
@@ -402,13 +417,16 @@ public class RestaurantPOS extends JFrame {
 
 
                         //adding all of the selections
-                        tea.add(new JLabel("Drink Selection"));
+                        tea.add(new JLabel("Tea Selection"));
                         tea.add(mintSelect);
                         tea.add(chaiSelect);
                         tea.add(greySelect);
                         tea.add(peachSelect);
                         tea.add(royalSelect);
                         tea.add(blackSelect);
+                        tea.add(new JLabel("Seasonal Drink/Search"));
+                        tea.add(seasonSelect);
+                        tea.add(seasonal);
 
 
                         tea.add(new JLabel("Customizations"));
@@ -424,6 +442,7 @@ public class RestaurantPOS extends JFrame {
                         teaSelection.add(peachSelect);
                         teaSelection.add(royalSelect);
                         teaSelection.add(blackSelect);
+                        teaSelection.add(seasonSelect);
                         mintSelect.setSelected(true);
 
                         customTeaSelection.add(tallTeaSelect);
@@ -738,7 +757,7 @@ public class RestaurantPOS extends JFrame {
                 menuSelectorPanel.add(coffeeButton);
 
                 //tea and hot chocolate
-                JButton teaButton = new JButton("Tea/Misc");
+                JButton teaButton = new JButton("Tea/Seasonal");
                 teaButton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
@@ -920,15 +939,20 @@ public class RestaurantPOS extends JFrame {
                           }
                     } 
                 } );
+
+
+                
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 //lists added to panel
                 JPanel itemPanel = new JPanel();
-                itemPanel.setLayout(new GridLayout(1,1));
+                itemPanel.setLayout(new GridLayout(2,1));
                 itemPanel.add(list);
                 itemPanel.add(RestockListJ);
                 itemPanel.add(xReportButton);
                 itemPanel.add(zReportButton);
+
+                
                 
             
 
