@@ -903,6 +903,46 @@ public class RestaurantPOS extends JFrame {
                           }
                     } 
                 } );
+
+                JButton restockReportButton = new JButton("Restock Report");
+
+                restockReportButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e) {
+                        try{
+                            String sql = "SELECT * FROM inventory";
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(sql);
+                            FileWriter restockReport = new FileWriter("RestockReport"+LocalDate.now()+".txt");
+                            restockReport.write("Restock Report for " + LocalDate.now() + "\n");
+                            restockReport.write("----------------------------------------\n");
+                            restockReport.write("Level  | Item   \n");
+                            restockReport.write("----------------------------------------\n");
+                            while(rs.next()){
+                                int minimum = rs.getInt("restockquantity");
+                                int level = rs.getInt("quantity");
+                                String item_name = rs.getString("item");
+
+                                
+                                if(level > minimum){
+                                    restockReport.write("Enough | ");
+                                } else{
+                                    restockReport.write("Low    | ");
+                                }
+
+                                restockReport.write(item_name + "\n");
+
+                            }
+                            restockReport.close();
+
+                        } catch(IOException m){
+                            System.out.println("Failed to create the restock report : IO error");
+                            m.printStackTrace();
+                        } catch(SQLException s){
+                            System.out.println("Failed to create the restock report : SQL error");
+                            s.printStackTrace();
+                        }
+                    }
+                } );
                 
                 JButton refreshButton = new JButton("Refresh");
                 refreshButton.addActionListener(new ActionListener() { 
@@ -958,7 +998,15 @@ public class RestaurantPOS extends JFrame {
                             public void actionPerformed(ActionEvent e) { 
                                 orderSeason.drink = seasonalMenu.getText();
                                 orderSeason.price = Double.parseDouble(seasonalPrice.getText());
-                                
+                                try{
+                                    Statement stmt = conn.createStatement();
+                                    
+                                    stmt.executeUpdate("INSERT INTO menu " + "VALUES ('drink','seasonal','"+orderSeason.drink+"', "+ orderSeason.price +","+orderSeason.price+","+orderSeason.price+")");
+                                                                       
+                                } catch(SQLException s){
+                                    System.out.println("HI");
+                                    s.printStackTrace();
+                                }
 
                                 System.out.println("Seasonal Item: "+orderSeason.drink+ " at $"+ orderSeason.price+" has been added to the menu");
                               
@@ -989,9 +1037,11 @@ public class RestaurantPOS extends JFrame {
                 controlPanel.add(xReportButton);
                 controlPanel.add(zReportButton);
                 controlPanel.add(refreshButton);
-                controlPanel.add(restockButton);
                 controlPanel.add(restockID);
-                itemPanel.add(controlPanel);
+                controlPanel.add(restockButton);
+                controlPanel.add(restockReportButton);
+                
+                
             
 
                 // puts into viewable list pair
@@ -1070,6 +1120,7 @@ public class RestaurantPOS extends JFrame {
                 //put all panels together
                 JPanel inventoryPanel = new JPanel(new GridLayout(1,1));
                 inventoryPanel.add(itemScroll);
+                inventoryPanel.add(controlPanel);
                 inventoryPanel.add(trendsPanel);
 
                 
