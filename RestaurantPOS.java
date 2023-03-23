@@ -252,34 +252,90 @@ public class RestaurantPOS extends JFrame {
                                 //2022-03-01 08:00:09 current Date format
 
                                 String sql = "SELECT * FROM menu where item = '" +order.drink+"'";
+                                String editTable = "UPDATE inventory SET quantity = quantity - ? WHERE id = ?";
 
                                 try{
                                     Statement stmt = conn.createStatement();
                                     ResultSet rs = stmt.executeQuery(sql);
+                                    PreparedStatement pstmt = conn.prepareStatement(editTable);
+                                    int quantSub = 3;
+                                    int id = 6;
+                                    pstmt.setInt(1, quantSub);
+                                    pstmt.setInt(2, id);
+                                    int rowsUpdated = pstmt.executeUpdate();
+
+                                    if(rowsUpdated > 0){
+                                        System.out.println("Subtracted coffee from inventory");
+                                    }
+                                    else{
+                                        System.out.println("No updates made to inventory");
+                                    }
+
                                     if(order.size == "tall"){
                                         while(rs.next()){
                                             order.price = rs.getDouble(4);
-                                        }  
+                                        }
+                                        quantSub = 1;
+                                        id = 1;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted TallCups from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
+                                        }
                                     }
                                     else if(order.size == "grande"){
                                         while(rs.next()){
                                             order.price = rs.getDouble(5);
+                                        }
+                                        quantSub = 1;
+                                        id = 2;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted GrandeCups from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
                                         } 
                                     }
                                     else {
                                         while(rs.next()){
                                             order.price = rs.getDouble(6);
+                                        }
+                                        quantSub = 1;
+                                        id = 3;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted VentiCups from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
                                         } 
                                     }
 
                                     if(order.customization){
                                         order.price += 1;
-                                    }
-                                    else{
-
-                                    }
+                                        quantSub = 1;
+                                        id = 10;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted Caramel Shot from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
+                                        }
+                                    }             
+                                    
                                 } catch(SQLException s){
-                                    System.out.println("HI");
                                     s.printStackTrace();
                                 }
 
@@ -456,24 +512,72 @@ public class RestaurantPOS extends JFrame {
                             public void actionPerformed(ActionEvent e){
                                 
                                 String sql = "SELECT * FROM menu where item = '" +orderTea.drink+"'";
+                                String editTable = "UPDATE inventory SET quantity = quantity - ? WHERE id = ?";
 
                                 try{
                                     Statement stmt = conn.createStatement();
                                     ResultSet rs = stmt.executeQuery(sql);
+                                    PreparedStatement pstmt = conn.prepareStatement(editTable);
+                                    int quantSub = 1;
+                                    int id = 7;
+                                    pstmt.setInt(1, quantSub);
+                                    pstmt.setInt(2, id);
+                                    int rowsUpdated = pstmt.executeUpdate();
+
+                                    if(rowsUpdated > 0){
+                                        System.out.println("Subtracted tea from inventory");
+                                    }
+                                    else{
+                                        System.out.println("No updates made to inventory");
+                                    }
+
                                     if(orderTea.size == "tall"){
                                         while(rs.next()){
                                             orderTea.price = rs.getDouble(4);
                                         }  
+                                        quantSub = 1;
+                                        id = 1;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted TallCups from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
+                                        }
                                     }
                                     else if(orderTea.size == "grande"){
                                         while(rs.next()){
                                             orderTea.price = rs.getDouble(5);
                                         } 
+                                        quantSub = 1;
+                                        id = 2;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted GrandeCups from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
+                                        }
                                     }
                                     else {
                                         while(rs.next()){
                                             orderTea.price = rs.getDouble(6);
                                         } 
+                                        quantSub = 1;
+                                        id = 3;
+                                        pstmt.setInt(1, quantSub);  
+                                        pstmt.setInt(2, id);
+                                        rowsUpdated = pstmt.executeUpdate();
+                                        if(rowsUpdated > 0){
+                                            System.out.println("Subtracted VentiCups from inventory");
+                                        }
+                                        else{
+                                            System.out.println("No updates made to inventory");
+                                        }
                                     }
 
                                 
@@ -583,14 +687,27 @@ public class RestaurantPOS extends JFrame {
                             public void actionPerformed(ActionEvent e){
                                 
                                 String sql = "SELECT * FROM menu where item = '" +orderBreak.drink+"'";
+                                String editTable = "UPDATE inventory SET quantity = quantity - ? WHERE item = ?";
 
                                 try{
                                     Statement stmt = conn.createStatement();
                                     ResultSet rs = stmt.executeQuery(sql);
+                                    PreparedStatement pstmt = conn.prepareStatement(editTable);
+                                    int quantSub = 1;
+                                    pstmt.setInt(1, quantSub);
+                                    pstmt.setString(2, orderBreak.drink);
+                                    int rowsUpdated = pstmt.executeUpdate();
+
+                                    if(rowsUpdated > 0){
+                                        System.out.println("Subtracted " + orderBreak.drink + " from inventory");
+                                    }
+                                    else{
+                                        System.out.println("No updates made to inventory");
+                                    }
                                     
-                                        while(rs.next()){
-                                            orderBreak.price = rs.getDouble(4);
-                                        }
+                                    while(rs.next()){
+                                        orderBreak.price = rs.getDouble(4);
+                                    }
                                     
                                 
                                 } catch(SQLException s){
@@ -692,10 +809,23 @@ public class RestaurantPOS extends JFrame {
                             public void actionPerformed(ActionEvent e){
                                 
                                 String sql = "SELECT * FROM menu where item = '" +orderB.drink+"'";
+                                String editTable = "UPDATE inventory SET quantity = quantity - ? WHERE item = ?";
 
                                 try{
                                     Statement stmt = conn.createStatement();
                                     ResultSet rs = stmt.executeQuery(sql);
+                                    PreparedStatement pstmt = conn.prepareStatement(editTable);
+                                    int quantSub = 1;
+                                    pstmt.setInt(1, quantSub);
+                                    pstmt.setString(2, orderB.drink);
+                                    int rowsUpdated = pstmt.executeUpdate();
+
+                                    if(rowsUpdated > 0){
+                                        System.out.println("Subtracted " + orderB.drink + " from inventory");
+                                    }
+                                    else{
+                                        System.out.println("No updates made to inventory");
+                                    }
                                     
                                         while(rs.next()){
                                             orderB.price = rs.getDouble(4);
@@ -835,7 +965,6 @@ public class RestaurantPOS extends JFrame {
                 inventory.setFont(new Font(invFont.getName(),invFont.getStyle(),24));
                 manager.add(inventory,BorderLayout.NORTH);
                 manager.getContentPane();
-
 
                 // adding the scrolling list
                 //JPanel inventoryList = new JPanel(new BorderLayout());
