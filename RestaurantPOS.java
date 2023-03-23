@@ -944,6 +944,7 @@ public class RestaurantPOS extends JFrame {
                     }
                 } );
                 
+                
                 JButton refreshButton = new JButton("Refresh");
                 refreshButton.addActionListener(new ActionListener() { 
                     public void actionPerformed(ActionEvent e) { 
