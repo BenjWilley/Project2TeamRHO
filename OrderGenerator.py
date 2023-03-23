@@ -11,6 +11,7 @@ grande = 4
 venti = 5
 price = 3
 
+
 # open a csv file in read mode
 
 
@@ -21,12 +22,13 @@ price = 3
 # each item will have calories, price, an id, and a classificationv (food, drink, custom)
 
 class Drink:
-    def __init__(self, name, price, id, size):
+    def __init__(self, name, price, id, size, sub_category):
         self.name = name
         self.price = float(price)
         self.id = id
         self.customizations = []
-    
+        self.sub_category = sub_category
+
     def updateName(self, new_name):
         self.name = new_name
 
@@ -39,10 +41,11 @@ class Drink:
 
 
 class Customization:
-    def __init__(self, name, price, id):
+    def __init__(self, name, price, id, sub_category):
         self.name = name
         self.price = float(price)
         self.id = id
+        self.sub_category = sub_category
 
     def updateName(self, new_name):
         self.name = new_name
@@ -52,10 +55,11 @@ class Customization:
 
 
 class Food:
-    def __init__(self, name, price, id):
+    def __init__(self, name, price, id, sub_category):
         self.name = name
-        self.price = price
+        self.price = float(price)
         self.id = id
+        self.sub_category = sub_category
 
     def updateName(self, new_name):
         self.name = new_name
@@ -86,7 +90,7 @@ class Order:
         self.drinks = []
         self.foods = []
         self.total = 0
-    
+
     def addDrink(self, drink):
         self.drinks.append(drink)
         self.total += float(drink.price)
@@ -109,35 +113,36 @@ def loadMenu(menu, file):
             # TODO trim off the \n attached to some of the lines
             # drinks.append(drink)
 
-            drink_tall = Drink("Tall " + item[name], float(item[tall]), id, "Tall")
+            drink_tall = Drink("Tall " + item[name], float(item[tall]), id, "Tall", item[1])
             menu.addDrink(drink_tall)
             id += 1
 
-            drink_grande = Drink("Grande " + item[name], float(item[grande]), id, "Grande")
+            drink_grande = Drink("Grande " + item[name], float(item[grande]), id, "Grande", item[1])
             menu.addDrink(drink_grande)
             id += 1
 
-            drink_venti = Drink("Venti " + item[name], float(item[venti]), id, "Venti")
+            drink_venti = Drink("Venti " + item[name], float(item[venti]), id, "Venti", item[1])
             menu.addDrink(drink_venti)
             id += 1
         if item[0] == 'Food':
             # food = [item[name], item[price]]
             # foods.append(food)
 
-            food = Food(item[name], item[price], id)
+            food = Food(item[name], item[price], id, item[1])
             menu.addFood(food)
             id += 1
         if item[0] == 'Customization':
             # custom = [item[name], item[price]]
             # customization.append(custom)
-            custom = Customization(item[name], item[price], id)
+            custom = Customization(item[name], item[price], id, item[1])
             menu.addCustomization(custom)
             id += 1
 
 
 menu = Menu()
 
-file = open(r"C:\Users\Ashwin\Documents\CSCE331\menu\StarbucksMenu.csv", "r")
+# file = open(r"C:\Users\Ashwin\Documents\CSCE331\menu\StarbucksMenu.csv", "r")
+file = open(r"C:\Users\ohbro\OneDrive\Desktop\CSCE331\Project2\Project2TeamRHO\StarbucksMenu.csv", "r")
 
 loadMenu(menu, file)
 
@@ -156,12 +161,12 @@ def generate_order(date): # date in the format mm/dd/yyyy
     for drink in range(random.randrange(3) + 1): # for a random number of drinks in the order
         pick = copy.deepcopy(random.choice(menu.drinks)) # pick the drink from the menu
         # custom = copy.deepcopy(random.choice(menu.customizations)) # pick a random customization
-        for custom in range(random.randrange(3)):
+        for custom in range(random.randrange(4)):
             custom_pick = copy.deepcopy(random.choice(menu.customizations))
             pick.addCustomization(custom_pick)
 
         order.addDrink(pick)
-    
+
     return order
 
 def print_order(order):
@@ -186,20 +191,92 @@ def print_order(order):
 
 file_out = open("order_data.csv", 'wt')
 
-for i in range(1000):
-    order = generate_order("00/00/0000")
-    file_out.write(order.time + ", " + str(round(order.total, 2)) + ", " + str(len(order.drinks)) + ", " + str(len(order.foods)) + "\n")
+file_out.write("mm-dd-yyyy HH:MM:SS, order_id, sub_category, price, name, item_id, shots, venti_iced, syrup, non_dairy\n")
+
+days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+order_id = 1
+
+random_times = []
+
+game_day_one_month = 9
+game_day_one_day = 9
+game_day_two_month = 11
+game_day_two_day = 25
+
+year = 2022
+
+for month in range(12):
+    month = (month + 2) % 12
+    if month == 1:
+        year += 1
+    for day in range(days_in_month[month]):
+
+            random_times = []
+
+            '''
+            for i in range(random.randrange(100)):
+                hour = random.randrange(12) + 8
+                minute = random.randrange(60)
+                second = random.randrange(60)
+                date = datetime.datetime(2023, month + 1, day + 1, hour, minute, second)
+                date_str = date.strftime("%m-%d-%Y %H:%M:%S")
+                random_times.append(date_str)
+            sort(random_times)
+            '''
+            num_orders = random.randrange(500, 700)
+            if month == game_day_one_month and day == game_day_one_day:
+                num_orders = random.randrange(1100, 1300)
+            elif month == game_day_two_month and day == game_day_two_day:
+                num_orders = random.randrange(1200, 1500)
+
+            for i in range(num_orders):
+                hour = random.randrange(12) + 8
+                minute = random.randrange(60)
+                second = random.randrange(60)
+                date = datetime.datetime(year, month + 1, day + 1, hour, minute, second)
+                date_str = date.strftime("%m-%d-%Y %H:%M:%S")
+                random_times.append(date_str)
+            random_times.sort()
+
+            for i in range(num_orders):
+                order = generate_order("00/00/0000")
+                '''
+                hour = random.randrange(12) + 8
+                minute = random.randrange(60)
+                second = random.randrange(60)
+
+                date = datetime.datetime(2023, month + 1, day + 1, hour, minute, second)
+
+                date_str = date.strftime("%m-%d-%Y %H:%M:%S")
+                '''
+                date_str = random_times[i]
+
+
+                for drink in order.drinks:
+
+                    shots = False
+                    venti_iced = False
+                    syrup = False
+                    non_dairy = False
+
+                    for custom in drink.customizations:
+                        shots = shots or custom.name == "Shots"
+                        venti_iced = venti_iced or custom.name == "Venti Iced"
+                        syrup = syrup or custom.name == "Syrup"
+                        non_dairy = non_dairy or custom.name == "Non Dairy"
+
+                    string = date_str + ", " + str(order_id) + ", " + drink.sub_category + ", " + str(round(drink.price, 2)) + ", " + drink.name + ", " + str(drink.id) + ", " + str(shots) + ", " + str(venti_iced) + ", " + str(syrup) + ", " + str(non_dairy) + "\n"
+                    file_out.write(string)
+
+                for food in order.foods:
+
+                    string = date_str + ", " + str(order_id) + ", " + drink.sub_category + ", " + str(round(food.price, 2)) + ", " + food.name + ", " + str(food.id) + ", False, False, False, False\n"
+                    file_out.write(string)
+
+
+                # FORMAT: mm-dd-yyyy HH:MM:SS, order_id, sub_category, price, name, item_id, shots, venti_iced, syrup, non_dairy
+
+                order_id += 1
 
 file_out.close()
-
-
-
-
-
-
-
-
-
-
-    
-
