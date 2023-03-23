@@ -934,7 +934,7 @@ public class RestaurantPOS extends JFrame {
             }
         });
 
-
+        //inventory table and scroll
         JTable inventoryTable = new JTable();
         JScrollPane inventoryScroll = new JScrollPane();
         inventoryScroll.setViewportView(inventoryTable);
@@ -973,7 +973,6 @@ public class RestaurantPOS extends JFrame {
 
                 //xReport and zReport///////////////////////////////////////////////////////////////////////////////
                 JButton xReportButton = new JButton("X Report");
-                        
                 xReportButton.addActionListener(new ActionListener() { 
                     public void actionPerformed(ActionEvent e) { 
                         System.out.println("X "+report+"\nrevenue:   $"+revenue+"\n\n");
@@ -981,10 +980,8 @@ public class RestaurantPOS extends JFrame {
                     } 
                 } );
 
-                
+                //restock button based on given ID input
                 JTextField restockID = new JTextField("enter item ID");
-
-
                 JButton restockButton = new JButton("Restock");
                 restockButton.addActionListener(new ActionListener() { 
                     public void actionPerformed(ActionEvent e) { 
@@ -1011,9 +1008,9 @@ public class RestaurantPOS extends JFrame {
                           }
                     } 
                 } );
-
-                JButton zReportButton = new JButton("Z Report");
                 
+                //button for zreport
+                JButton zReportButton = new JButton("Z Report");
                 zReportButton.addActionListener(new ActionListener() { 
                     public void actionPerformed(ActionEvent e) { 
 
@@ -1035,6 +1032,8 @@ public class RestaurantPOS extends JFrame {
 
                 JButton restockReportButton = new JButton("Restock Report");
 
+                //restock report
+                //generates restock report on RestockResport-date.txt
                 restockReportButton.addActionListener(new ActionListener(){
                     public void actionPerformed(ActionEvent e) {
                         try{
@@ -1073,6 +1072,7 @@ public class RestaurantPOS extends JFrame {
                     }
                 } );
                 
+                //refresh button refreshes inventory page
                 JButton refreshButton = new JButton("Refresh");
                 refreshButton.addActionListener(new ActionListener() { 
                     public void actionPerformed(ActionEvent e) { 
@@ -1141,11 +1141,6 @@ public class RestaurantPOS extends JFrame {
                               
                             } 
                         } );
-
-                 
-
-
-                
                 
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1184,6 +1179,7 @@ public class RestaurantPOS extends JFrame {
                 // drop down for weeks
                 JPanel dateRange = new JPanel(new GridLayout(3,1));
                 
+                //sales report
                 JLabel dateText = new JLabel("Enter date range mm-dd-yyyy/mm-dd-yyyy");
                 dateRange.add(dateText);
 
@@ -1191,7 +1187,6 @@ public class RestaurantPOS extends JFrame {
                 inputDate.setLayout(new GridLayout(1,2));
 
                 dateRange.add(inputDate, BorderLayout.CENTER);
-
 
                 JButton dateButton = new JButton("Enter");
             
@@ -1203,6 +1198,7 @@ public class RestaurantPOS extends JFrame {
                 JScrollPane dateScroll = new JScrollPane();
                 dateScroll.setViewportView(dateTable);
 
+                //action listener that opens table
                 dateButton.addActionListener(new ActionListener(){
                     public void actionPerformed (ActionEvent e) {
                         
