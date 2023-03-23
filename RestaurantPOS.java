@@ -805,6 +805,9 @@ public class RestaurantPOS extends JFrame {
         });
 
 
+        JTable inventoryTable = new JTable();
+        JScrollPane inventoryScroll = new JScrollPane();
+        inventoryScroll.setViewportView(inventoryTable);
 
         // Add an ActionListener to the second button
         managerButton.addActionListener(new ActionListener() {
@@ -812,7 +815,7 @@ public class RestaurantPOS extends JFrame {
                 // Create a new frame for the next page 2
                 JFrame manager = new JFrame("Manager");
                 manager.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                
+
                 // Add a back button to the next page 2
                 JButton backButton2 = new JButton("Home");
                 backButton2.addActionListener(new ActionListener() {
@@ -837,79 +840,7 @@ public class RestaurantPOS extends JFrame {
                 // adding the scrolling list
                 //JPanel inventoryList = new JPanel(new BorderLayout());
                 // JTextArea inventoryArea = new JTextArea(10, 30);
-                DefaultListModel<String> itemList = new DefaultListModel<>();
-                itemList.addElement("TallCups");
-                itemList.addElement("GrandeCups");
-                itemList.addElement("VentiCups");
-                itemList.addElement("ShortCups");
-                itemList.addElement("Napkins");
-                itemList.addElement("LightGrounds(oz.)");
-                itemList.addElement("MediumGrounds(oz.)");
-                itemList.addElement("DarkGrounds(oz.)");
-                itemList.addElement("Teabags");
-                itemList.addElement("WholeMilk(oz.)");
-                itemList.addElement("2%(oz.)");
-                itemList.addElement("NonFatMilk(oz.)");
-                itemList.addElement("SoyMilk(oz.)");
-                itemList.addElement("AlmondMilk(oz.)");
-                itemList.addElement("OatMilk(oz.)");
-                itemList.addElement("CoconutMilk(oz.)");
-                itemList.addElement("CaramelSyrupPumps");
-                itemList.addElement("CaramelSyrupPumps");
-                itemList.addElement("No-sugarVanillaSyrup");
-                itemList.addElement("PeppermintSyrupPumps");
-                itemList.addElement("WhiteMochaSauce");
-                itemList.addElement("CaramelDrizzle");
-                itemList.addElement("StrawberryAcaiBase");
-                itemList.addElement("MangoDragonfruitBase");
-                itemList.addElement("FrappuccinoCremeBase");
-                itemList.addElement("FrappuccinoCoffeeBase");
-                itemList.addElement("ChocolateChips");
-                itemList.addElement("Half-n-HalfCups");
-                itemList.addElement("HeavyCreamCups");
-                JList<String> list = new JList<>(itemList);
-                //JScrollPane inventoryScroll = new JScrollPane(list);
-                //inventoryList.add(inventoryScroll, BorderLayout.WEST);
-                //manager.getContentPane().add(inventoryList);
-
-                // Restock Bar
-                //JPanel restock = new JPanel(new BorderLayout());
-                DefaultListModel<String> RestockList = new DefaultListModel<>();
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
                 
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                
-                RestockList.addElement("good");
-                RestockList.addElement("out");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-
-                RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("low");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-                RestockList.addElement("good");
-
-                JList<String> RestockListJ = new JList<>(RestockList);
 
                 //xReport and zReport///////////////////////////////////////////////////////////////////////////////
                 JButton xReportButton = new JButton("X Report");
@@ -921,8 +852,36 @@ public class RestaurantPOS extends JFrame {
                     } 
                 } );
 
+                
+                JTextField restockID = new JTextField("enter item ID");
 
 
+                JButton restockButton = new JButton("Restock");
+                restockButton.addActionListener(new ActionListener() { 
+                    public void actionPerformed(ActionEvent e) { 
+                        
+                        try{
+                            String restocknum = restockID.getText();
+                            String sql = "UPDATE inventory SET quantity = quantity + 10000 WHERE id = ?";
+
+                            int restockInt = Integer.parseInt(restocknum);
+                            PreparedStatement pstmt = conn.prepareStatement(sql);
+                            pstmt.setInt(1, restockInt);
+
+                            int rowsUpdated = pstmt.executeUpdate();
+
+                            if(rowsUpdated > 0){
+                                System.out.println("Updated item id " + restocknum);
+                            }
+                            else{
+                                System.out.println("No updates made to inventory");
+                            }
+
+                        } catch (SQLException m) {
+                            m.printStackTrace();
+                          }
+                    } 
+                } );
 
                 JButton zReportButton = new JButton("Z Report");
                 
@@ -944,7 +903,44 @@ public class RestaurantPOS extends JFrame {
                           }
                     } 
                 } );
+                
+                JButton refreshButton = new JButton("Refresh");
+                refreshButton.addActionListener(new ActionListener() { 
+                    public void actionPerformed(ActionEvent e) { 
+                        try{
+                            String sql = "SELECT * FROM inventory";
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(sql);
+                            ResultSetMetaData rsmd = rs.getMetaData();
+                            DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
+                            model.setRowCount(0);
+                            inventoryTable.setModel(model);
+                            int cols = rsmd.getColumnCount();
 
+                            String[] colName=new String[cols];
+                                    for(int i =0;i < cols;i++){
+                                        colName[i] = rsmd.getColumnName(i+1);
+                                    }
+                                    model.setColumnIdentifiers(colName);
+
+                                    String id,item, quantity,restockQuantity; 
+                                    while(rs.next()){
+                                        id = rs.getString(1);
+                                        item = rs.getString(2);
+                                        quantity = rs.getString(3);
+                                        restockQuantity = rs.getString(4);
+
+                                        String[] row = {id,item, quantity,restockQuantity};
+                                        model.addRow(row);
+                                    }
+                                    
+                        }
+                        catch(SQLException s){
+                            System.out.println("HI");
+                            s.printStackTrace();
+                        }
+                    } 
+                } );
 
                  // making the seasonal menu items
                  JButton addSeasonal= new JButton("Add To Menu");
@@ -979,8 +975,8 @@ public class RestaurantPOS extends JFrame {
                 //lists added to panel
                 JPanel itemPanel = new JPanel();
                 itemPanel.setLayout(new GridLayout(1,1));
-                itemPanel.add(list);
-                itemPanel.add(RestockListJ);
+                itemPanel.add(inventoryScroll);
+                //itemPanel.add(RestockListJ);
                 
                 ///PHASE 4 Requirement Buttons
                 JPanel controlPanel = new JPanel();
@@ -992,6 +988,9 @@ public class RestaurantPOS extends JFrame {
                 controlPanel.add(addSeasonal);
                 controlPanel.add(xReportButton);
                 controlPanel.add(zReportButton);
+                controlPanel.add(refreshButton);
+                controlPanel.add(restockButton);
+                controlPanel.add(restockID);
                 itemPanel.add(controlPanel);
             
 
@@ -1039,7 +1038,8 @@ public class RestaurantPOS extends JFrame {
                             ResultSetMetaData rsmd = rs.getMetaData();
 
                             DefaultTableModel model = (DefaultTableModel) dateTable.getModel();
-
+                            model.setRowCount(0);
+                            dateTable.setModel(model);
                             
                             int cols = rsmd.getColumnCount();
                             String[] colName=new String[cols];
@@ -1055,8 +1055,7 @@ public class RestaurantPOS extends JFrame {
                                 String[] row = {itemName, quantity};
                                 model.addRow(row);
                             }
-                            stmt.close();
-                            conn.close();
+                            
                         }
                         catch(SQLException s){
                                     System.out.println("HI");
