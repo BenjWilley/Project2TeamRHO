@@ -308,10 +308,30 @@ public class RestaurantPOS extends JFrame {
                             }
                         });
 
+
+                        /** Order Buttons 
+                         * @author Ben Willey
+                         * The server will set the radio buttons to their desired item, then pressing order will add those buttons input to a order object.
+                         * The order object data will be used to add the order to the sales table, x/z report variables and the subtotal panel.
+                         * The radio buttons are comprised of two groups, order name and customization. This allows only one option to be selected at once.
+                         * There are also defaults set for the items, so no one can order null drinks.
+                         */
+
+                         
                         //adding the order button
                         coffee.add(orderCoffeeButton);
                         
                         
+
+                        /**
+                         * Seasonal/Search Order Button
+                         * @author Ben Willey
+                         * This option works by pulling a string from the text box when order is pressed.
+                         * The order is then looked up by the item name in the SQL menu(it should be added to menu on the manager page).
+                         * The price is fetched, then it is added as an order to the sales table, x/z report variables, and subtotal box.
+                         * It can also be used to search the entire menu, so entering anything in the menus item name will yield an order.
+                         * 
+                         */
 
             //Teas
                 JPanel tea = new JPanel();
@@ -912,6 +932,17 @@ public class RestaurantPOS extends JFrame {
                 JList<String> RestockListJ = new JList<>(RestockList);
 
                 //xReport and zReport///////////////////////////////////////////////////////////////////////////////
+
+                /**
+                 * X Report Button
+                 * @author Ben Willey
+                 * This keeps track of recent orders, but unlike the z report does not clear them after being called.
+                 * The button also prints to terminal instead of writing to a text file.
+                 * X reports are meant to track progress of sales throughout the day, while z reports 
+                 * are used to finalize sales.
+                 */
+
+
                 JButton xReportButton = new JButton("X Report");
                         
                 xReportButton.addActionListener(new ActionListener() { 
@@ -922,7 +953,15 @@ public class RestaurantPOS extends JFrame {
                 } );
 
 
-
+                /**
+                 * Z Report Button
+                 * @author Ben Willey
+                 * This logs all the recent orders, or orders since last z report, in a .txt file. 
+                 * It works by having global variables track the orders as a string and a double that tracks the subtotal.
+                 * Everytime a z report is called it writes the orders string and subtotal to a .txt file, then sets the values back to default.
+                 * Setting the values to default essentially clears the report.
+                 * 
+                 */
 
                 JButton zReportButton = new JButton("Z Report");
                 
@@ -944,6 +983,17 @@ public class RestaurantPOS extends JFrame {
                           }
                     } 
                 } );
+
+
+                /**
+                 * @author Ben Willey
+                 * Add Seasonal Order to Menu Button
+                 * The code for seasonal drinks pulls user input as text, then adds that input as an entry in our menu.
+                 * It adds the row to menu using a SQL execution. There were some special cases we had to consider.
+                 * If the seasonal item is a food item, then there would be no size. To remedy this we made all seasonal items
+                 * sizeless. For tall, grande and venti prices in our menu they are all the same price value.
+                 * 
+                 */
 
 
                  // making the seasonal menu items
