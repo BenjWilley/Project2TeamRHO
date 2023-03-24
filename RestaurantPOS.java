@@ -3,6 +3,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+// for order timestamps
+import java.text.SimpleDateFormat;  
+import java.util.Date;  
+
 import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -247,10 +251,44 @@ public class RestaurantPOS extends JFrame {
                         orderCoffeeButton.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e){
                                 String sql = "SELECT * FROM menu where item = '" +order.drink+"'";
+                                String order_id_query = "SELECT MAX(orderid) FROM sales";
+                                String item_id_query = "SELECT itemid WHERE name = '" + order.drink + "'";
+                                
+                                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                Date date = new Date();  
+                                String timestamp = formatter.format(date);
+
+                                //FORMAT: mm-dd-yyyy HH:MM:SS, order_id, sub_category, price, name, item_id, shots, venti_iced, syrup, non_dairy
 
                                 try{
-                                    Statement stmt = conn.createStatement();
+                                    Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                                    //Statement stmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                                    //Statement stmt2 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                                     ResultSet rs = stmt.executeQuery(sql);
+                                    //ResultSet rs1 = stmt1.executeQuery(item_id_query);
+                                    //ResultSet rs2 = stmt2.executeQuery(order_id_query);
+
+                                    // get the item id from the menu set
+                                    // int drink_item_id = rs.getDouble();
+                                    //int drink_item_id = -1;
+                                    //int order_id = rs2.getInt("orderid");
+                                    //System.out.println(order_id);
+
+
+
+                                    String sub_category = "";
+
+                                    while(rs.next()){
+                                        sub_category = rs.getString("subcategory");
+                                    }
+
+
+                                    //rs1.last();
+                                    //drink_item_id = rs1.getInt("itemid");
+                                    //System.out.println(drink_item_id);
+                                    
+
+
                                     if(order.size == "tall"){
                                         while(rs.next()){
                                             order.price = rs.getDouble(4);
@@ -273,6 +311,18 @@ public class RestaurantPOS extends JFrame {
                                     else{
 
                                     }
+                                    String shotbool = "f";
+                                    if(order.customization){
+                                        shotbool = "t";
+                                    }
+
+
+                                    String upload_query = "INSERT INTO sales (date, subcategory, price, name, shot) VALUES ('" + timestamp + "', '" + sub_category + "', " + order.price + ", '" + order.size + " " + order.drink + "', " + order.customization + ")";
+                                    System.out.println(upload_query);
+                                    Statement stmt3 = conn.createStatement();
+                                    System.out.println(stmt3.executeUpdate("INSERT INTO sales (date, subcategory, price, name, shot) VALUES ('" + timestamp + "', '" + sub_category + "', " + order.price + ", '" + order.size + " " + order.drink + "', " + order.customization + ")"));
+                                    System.out.println("finished the upload");
+
                                 } catch(SQLException s){
                                     System.out.println("HI");
                                     s.printStackTrace();
@@ -922,6 +972,54 @@ public class RestaurantPOS extends JFrame {
                 } );
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+                JButton restockReportButton = new JButton("Restock Report");
+                /* 
+                try{
+                    
+                } catch(SQLException s){
+                    System.out.println("Failed to create the restock report : SQL error");
+                    s.printStackTrace();
+                }
+                */
+
+                restockReportButton.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e) {
+                        try{
+                            String sql = "SELECT * FROM inventory";
+                            Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(sql);
+                            FileWriter restockReport = new FileWriter("RestockReport"+LocalDate.now()+".txt");
+                            restockReport.write("Restock Report for " + LocalDate.now() + "\n");
+                            restockReport.write("----------------------------------------\n");
+                            restockReport.write("Level  | Item   \n");
+                            restockReport.write("----------------------------------------\n");
+                            while(rs.next()){
+                                int minimum = rs.getInt("restockquantity");
+                                int level = rs.getInt("quantity");
+                                String item_name = rs.getString("item");
+
+                                
+                                if(level > minimum){
+                                    restockReport.write("Enough | ");
+                                } else{
+                                    restockReport.write("Low    | ");
+                                }
+
+                                restockReport.write(item_name + "\n");
+
+                            }
+                            restockReport.close();
+
+                        } catch(IOException m){
+                            System.out.println("Failed to create the restock report : IO error");
+                            m.printStackTrace();
+                        } catch(SQLException s){
+                            System.out.println("Failed to create the restock report : SQL error");
+                            s.printStackTrace();
+                        }
+                    }
+                } );
+
                 //lists added to panel
                 JPanel itemPanel = new JPanel();
                 itemPanel.setLayout(new GridLayout(1,1));
@@ -929,6 +1027,7 @@ public class RestaurantPOS extends JFrame {
                 itemPanel.add(RestockListJ);
                 itemPanel.add(xReportButton);
                 itemPanel.add(zReportButton);
+                itemPanel.add(restockReportButton);
                 
             
 
